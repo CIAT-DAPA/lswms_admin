@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 {% block body %}
+
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 1 administrative divisions, related to zones.</h5>
+
 <div class="container-fluid mt-5">
+
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <div class="row">
@@ -17,12 +21,15 @@
     {% endwith %}
 
     <div class="row">
+
         <!-- lef conainer to add adm1-->
         <div class="col-md-6">
             <h2 class="card-title text-center">Add Adm1</h2>
 
             <div class="card">
                 <div class="card-body">
+            <p class="">Fill in the fields </p>
+
                     <form method="POST" action="/adm1/add">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name Adm1:</label>
@@ -33,7 +40,7 @@
                             <input type="number" class="form-control" id="ext_id" name="ext_id" required>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Add Adm1</button>
+                            <button type="submit" class="btn btn-success">Add Adm1</button>
                         </div>
                     </form>
                 </div>

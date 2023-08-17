@@ -1,0 +1,39 @@
+{%extends 'layout.html' %}
+{% block body%}
+<div class="container-fluid d-flex justify-content-center " style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h2 class="card-title text-center">Edit Adm2</h2>
+    
+        <div class="card">
+    
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="/editadm2/{{adm2.id}}">
+                        <div class="mb-3">
+                            <label for="adm1" class="form-label">Select Adm1:</label>
+                            <select class="form-select" id="adm1" name="adm1" required>
+                                <option value="" disabled selected>Select Adm1</option>
+                                {% for adm in adm1 %}
+                                    <option value="{{ adm.id }}">{{ adm.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Edit Adm2:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{adm2.name}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Ext_id:</label>
+                            <input type="number" class="form-control" id="ext_id" name="ext_id" value="{{adm2.ext_id}}" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Edit Adm2</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

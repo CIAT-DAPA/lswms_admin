@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from mongoengine import connect
 from config import Config
 from routes.adm1 import adm1_bp
+from routes.adm2 import adm2_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -15,6 +16,7 @@ connect(
 )
 
 app.register_blueprint(adm1_bp)
+app.register_blueprint(adm2_bp)
 
 
 
