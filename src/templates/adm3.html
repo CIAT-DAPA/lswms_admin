@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to Kebeles.</h5>
+
+<div class="container-fluid mt-5">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="row">
+        <div class="col-md-6">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <!-- lef conainer to add adm1-->
+        <div class="col-md-6">
+            <h2 class="card-title text-center">Add Adm3</h2>
+
+
+            <div class="card">
+                <div class="card-body">
+            <p class="">Fill in the fields, if you don't find the adm2 in the list, you can create it <a href="/adm2">here</a> </p>
+
+                    <form method="POST" action="/adm3/add">
+                        <div class="mb-3">
+                            <label for="adm1" class="form-label">Select Adm2:</label>
+                            <select class="form-select" id="adm2" name="adm2" required>
+                                <option value="" disabled selected>Select Adm2</option>
+                                {% for adm in adm3 %}
+                                    <option value="{{ adm.id }}">{{ adm.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name Adm3:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Ext_id:</label>
+                            <input type="number" class="form-control" id="ext_id" name="ext_id" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Add Adm3</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- right table to edit adm     -->
+        <div class="col-md-6">
+            <h2 class="text-center">List of Adm3 (Kebele)</h2>
+            
+            <table class="table table-striped table-bordered bg-white">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Ext Id</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for adm in adm3 %}
+                    <tr>
+                        <td>{{ adm.name }}</td>
+                        <td>{{ adm.ext_id }}</td>
+                        <td>
+                            <div class="text-center">
+                                <a href="/editadm2/{{ adm.id }}" class="btn btn-warning">Edit</a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% for adm in adm3 %}
+<div class="modal fade" id="deleteModal-{{ adm.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ adm.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ adm.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Kebele?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/deleteadm3/{{ adm.id }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
