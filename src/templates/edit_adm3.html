@@ -2,7 +2,7 @@
 {% block body%}
 <div class="container-fluid d-flex justify-content-center " style="min-height: 80vh;">
     <div class="col-md-6">
-        <h2 class="card-title text-center">Edit Adm2</h2>
+        <h2 class="card-title text-center">Edit Adm3</h2>
     
         <div class="card">
     
@@ -11,9 +11,9 @@
                     <form method="POST" action="/editadm3/{{adm3.id}}">
                         <div class="mb-3">
                             <label for="adm1" class="form-label">Select Adm2:</label>
-                            <select class="form-select" id="adm1" name="adm2" required>
+                            <select class="form-select" id="adm2" name="adm2" required>
                                 <option value="" disabled selected>Select Adm2</option>
-                                {% for adm in adm3 %}
+                                {% for adm in adm2 %}
                                     <option value="{{ adm.id }}">{{ adm.name }}</option>
                                 {% endfor %}
                             </select>

@@ -22,7 +22,7 @@ def add_adm1():
     flash("Adm3 added succesfully")
     return redirect('/adm3')
 
-@adm3_bp.route('/editadm23/<string:adm3_id>', methods=['GET', 'POST'])
+@adm3_bp.route('/editadm3/<string:adm3_id>', methods=['GET', 'POST'])
 def edit_adm3(adm3_id):
     adm3 = Adm3.objects(id=adm3_id).first()
     adm2=Adm2.objects()

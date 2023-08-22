@@ -5,13 +5,13 @@ from datetime import datetime
 adm2_bp = Blueprint('adm2', __name__)
 
 @adm2_bp.route('/adm2')
-def show_adm1():
+def show_adm2():
     adm2 = Adm2.objects()
     adm1=Adm1.objects()
     return render_template('adm2.html', adm2=adm2, adm1=adm1)
 
 @adm2_bp.route('/adm2/add', methods=['POST'])
-def add_adm1():
+def add_adm2():
     name = request.form['name']
     ext_id = request.form['ext_id']
     adm1_id = request.form['adm1'] 
@@ -22,7 +22,7 @@ def add_adm1():
     return redirect('/adm2')
 
 @adm2_bp.route('/editadm2/<string:adm2_id>', methods=['GET', 'POST'])
-def edit_adm1(adm2_id):
+def edit_adm2(adm2_id):
     adm2 = Adm2.objects(id=adm2_id).first()
     adm1=Adm1.objects()
     
@@ -42,7 +42,7 @@ def edit_adm1(adm2_id):
     return render_template('edit_adm2.html', adm2=adm2,adm1=adm1)
 
 @adm2_bp.route('/deleteadm2/<string:adm2_id>')
-def delete_adm1(adm2_id):
+def delete_adm2(adm2_id):
     adm2 = Adm2.objects(id=adm2_id).first()
 
     if adm2:

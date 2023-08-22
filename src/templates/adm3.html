@@ -33,7 +33,7 @@
                             <label for="adm1" class="form-label">Select Adm2:</label>
                             <select class="form-select" id="adm2" name="adm2" required>
                                 <option value="" disabled selected>Select Adm2</option>
-                                {% for adm in adm3 %}
+                                {% for adm in adm2 %}
                                     <option value="{{ adm.id }}">{{ adm.name }}</option>
                                 {% endfor %}
                             </select>
@@ -73,7 +73,7 @@
                         <td>{{ adm.ext_id }}</td>
                         <td>
                             <div class="text-center">
-                                <a href="/editadm2/{{ adm.id }}" class="btn btn-warning">Edit</a>
+                                <a href="/editadm3/{{ adm.id }}" class="btn btn-warning">Edit</a>
                                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}">Delete</a>
                             </div>
                         </td>
