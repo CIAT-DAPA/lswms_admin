@@ -4,6 +4,7 @@ from config import Config
 from routes.adm1 import adm1_bp
 from routes.adm2 import adm2_bp
 from routes.adm3 import adm3_bp
+from routes.watershed import watershed_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,6 +20,7 @@ connect(
 app.register_blueprint(adm1_bp)
 app.register_blueprint(adm2_bp)
 app.register_blueprint(adm3_bp)
+app.register_blueprint(watershed_bp)
 
 
 

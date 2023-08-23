@@ -32,8 +32,8 @@ def edit_adm3(adm3_id):
         nombre = request.form['name']
         ext_id = request.form['ext_id']
         trace = adm3.trace
-        adm1_id = request.form['adm2'] 
-        selected_adm2 = Adm2.objects.get(id=adm1_id)
+        adm2_id = request.form['adm2'] 
+        selected_adm2 = Adm2.objects.get(id=adm2_id)
         trace['updated'] = datetime.now()
         adm3.update(name=nombre, ext_id=ext_id, trace=trace,adm2=selected_adm2)
 
