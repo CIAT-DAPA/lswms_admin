@@ -12,11 +12,11 @@
                         <div class="mb-3">
                             <label for="adm1" class="form-label">Select Adm1:</label>
                             <select class="form-select" id="adm1" name="adm1" required>
-                                <option value="" disabled selected>Select Adm1</option>
                                 {% for adm in adm1 %}
-                                    <option value="{{ adm.id }}">{{ adm.name }}</option>
+                                    <option value="{{ adm.id }}" {% if adm.id == adm2.adm1.id %}selected{% endif %}>{{ adm.name }}</option>
                                 {% endfor %}
                             </select>
+                            
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Edit Adm2:</label>
