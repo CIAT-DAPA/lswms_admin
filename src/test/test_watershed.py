@@ -35,7 +35,7 @@ class TestWatershedBlueprint(unittest.TestCase):
         # Verify if the data is saved in the in-memory database (if applicable)
 
 
-    def test_delete_adm1(self):
+    def test_delete_watershed(self):
         # Simulate existing data in the in-memory database
         watershed = Watershed(name='Test Adm3', area='123', trace={},adm3='64d1bec4f8b9461ac6ed74cc')
         watershed.save()
