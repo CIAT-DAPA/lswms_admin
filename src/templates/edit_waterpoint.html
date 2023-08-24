@@ -13,7 +13,7 @@
                             <label for="adm1" class="form-label">Select Adm3:</label>
                             <select class="form-select" id="watershed" name="watershed" required>
                                 {% for wsh in watershed %}
-                                    <option value="{{ wsh.id }}" {% if wsh.id == watershed.id %}selected{% endif %}>{{ wsh.name }}</option>
+                                    <option value="{{ wsh.id }}" {% if wsh.id == waterpoint.watershed.id %}selected{% endif %}>{{ wsh.name }}</option>
                                 {% endfor %}
                             </select>
                             

@@ -17,8 +17,10 @@ def add_wateshed():
     name = request.form['name']
     area = request.form['area']
     adm3_id = request.form['adm3'] 
+    selected_adm3 = Adm3.objects.get(id=adm3_id)
+
     traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
-    watershed = Watershed(name=name, area=area,trace=traced,adm3=adm3_id)
+    watershed = Watershed(name=name, area=area,trace=traced,adm3=selected_adm3)
     watershed.save()
     flash("Watershed added succesfully")
     return redirect('/watershed')
