@@ -1,0 +1,26 @@
+{%extends 'layout.html' %}
+{% block body%}
+<div class="container-fluid d-flex justify-content-center " style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h2 class="card-title text-center">Edit Typecontent</h2>
+    
+        <div class="card">
+    
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="/editypecontent/{{typecontent.id}}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Edit Typecontent:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{typecontent.name}}" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Edit Typecontent</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

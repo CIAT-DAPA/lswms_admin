@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Type of content</h5>
+
+<div class="container-fluid mt-5">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+        <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            {{ message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %} 
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+
+        <!-- lef conainer to add typecontent-->
+        <div class="col-md-6">
+            <h2 class="card-title text-center">Add Typecontent</h2>
+
+            <div class="card">
+                <div class="card-body">
+            <p class="">Fill in the fields </p>
+
+                    <form method="POST" action="/typecontent/add">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name Typecontent:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Add Typecontent</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- right table to edit adm     -->
+        <div class="col-md-6">
+            <h2 class="text-center">List of Typecontent </h2>
+            
+            <table class="table table-striped table-bordered bg-white">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tpc in typecontent %}
+                    <tr>
+                        <td>{{ tpc.name }}</td>
+                        <td>
+                            <div class="text-center">
+                                <a href="/editypecontent/{{ tpc.id }}" class="btn btn-warning">Edit</a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ tpc.id }}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% for tpc in typecontent %}
+<div class="modal fade" id="deleteModal-{{ tpc.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ tpc.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ tpc.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Type content?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/deletetypecontnt/{{ tpc.id }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
