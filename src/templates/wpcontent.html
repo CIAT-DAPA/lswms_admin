@@ -1,0 +1,185 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 1 administrative divisions, related to zones.</h5>
+
+<div class="container-fluid mt-5">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+        <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            {{ message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %} 
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+
+        <!-- lef conainer to add adm1-->
+        <div class="col-md-6">
+            <h2 class="card-title text-center">Add wpcontent</h2>
+        
+            <div class="card">
+                <div class="card-body">
+                    <p class="">Fill in the fields </p>
+        
+                    <form method="POST" action="/wpcontent/add">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">title:</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">type:</label>
+                            <input type="text" class="form-control" id="type" name="type" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">position:</label>
+                            <input type="text" class="form-control" id="position" name="position" required>
+                        </div>
+                        <div class="mb-3">
+                            <h2 class="text-center">Values</h2>
+                        </div>
+                        <div id="values-container">
+                            <!-- Dynamic Key-Value Fields Will Be Added Here -->
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="addKeyValueField()">Add Key-Value</button>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Add wpcontent</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- right table to edit adm     -->
+        <div class="col-md-6">
+            <h2 class="text-center">List of Wp contents</h2>
+            
+          
+            {% for wpc in wpcontent %}
+            <table class="table table-striped table-bordered bg-white">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ wpc.content.title }}</td>
+                        <td>{{ wpc.content.type }}</td>
+                        <td>
+                            <div class="text-center">
+                                <a href="/editwpcontent/{{ wpc.id }}" class="btn btn-warning">Edit</a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wpc.id }}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Key</strong></td>
+                        <td><strong>Value</strong></td>
+                        <td></td> <!-- Mantén esta celda vacía para la alineación -->
+                    </tr>
+                    {% for value in wpc.content['values'] %}
+                    {% for key, val in value.items() %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ val }}</td>
+                        <td>
+                            <div class="text-center">
+                                <!-- Puedes agregar acciones específicas para los valores de "values" aquí si es necesario -->
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+            
+        </div>
+    </div>
+</div>
+
+{% for wpc in wpcontent %}
+<div class="modal fade" id="deleteModal-{{ wpc.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wpc.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ wpc.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this content?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/deletewpcontent/{{ wpc.id }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function addKeyValueField() {
+        var valuesContainer = document.getElementById('values-container');
+
+        // Crear un contenedor para cada par de campos
+        var fieldContainer = document.createElement('div');
+        fieldContainer.className = 'mb-3';
+
+        var keyInput = document.createElement('input');
+        keyInput.type = 'text';
+        keyInput.className = 'form-control';
+        keyInput.placeholder = 'Key';
+        keyInput.name = 'keys[]'; // Use an array to send multiple keys in form data
+        fieldContainer.appendChild(keyInput);
+
+        var valueInput = document.createElement('input');
+        valueInput.type = 'text';
+        valueInput.className = 'form-control';
+        valueInput.placeholder = 'Value';
+        valueInput.name = 'values[]'; // Use an array to send multiple values in form data
+        fieldContainer.appendChild(valueInput);
+
+        // Crear un botón para eliminar este par de campos
+        var removeFieldBtn = document.createElement('button');
+        removeFieldBtn.type = 'button';
+        removeFieldBtn.className = 'btn btn-danger';
+        removeFieldBtn.textContent = 'Remove';
+        removeFieldBtn.onclick = function () {
+            valuesContainer.removeChild(fieldContainer);
+            checkRemoveButtonVisibility();
+        };
+
+        // Agregar el botón de eliminar entre los campos de entrada
+        fieldContainer.appendChild(removeFieldBtn);
+
+        valuesContainer.appendChild(fieldContainer);
+
+        checkRemoveButtonVisibility();
+    }
+
+    function checkRemoveButtonVisibility() {
+        var valuesContainer = document.getElementById('values-container');
+        var fieldContainers = valuesContainer.querySelectorAll('.mb-3');
+        var removeKeyValueBtn = document.getElementById('removeKeyValueBtn');
+
+        if (fieldContainers.length >= 2) {
+            removeKeyValueBtn.style.display = 'inline-block';
+        } else {
+            removeKeyValueBtn.style.display = 'none';
+        }
+    }
+</script>
+{% endfor %}
+
+{% endblock %}

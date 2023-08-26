@@ -7,6 +7,7 @@ from routes.adm3 import adm3_bp
 from routes.watershed import watershed_bp
 from routes.waterpoint import waterpoint_bp
 from routes.typecontent import typecontent_bp
+from routes.wpcontent import wpcontent_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,6 +26,7 @@ app.register_blueprint(adm3_bp)
 app.register_blueprint(watershed_bp)
 app.register_blueprint(waterpoint_bp)
 app.register_blueprint(typecontent_bp)
+app.register_blueprint(wpcontent_bp)
 
 
 

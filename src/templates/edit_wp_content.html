@@ -1,0 +1,125 @@
+{% extends 'layout.html' %} 
+{% block body %}
+<div class="">
+  <h2 class="card-title text-center">Edit wpcontent</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <p class="">Fill in the fields</p>
+
+      <form method="POST" action="/editwpcontent/{{wpcontent.id}}">
+        <div class="mb-3">
+          <label for="name" class="form-label">title:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            value="{{wpcontent.content.title}}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">type:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="type"
+            name="type"
+            value="{{wpcontent.content.position}}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">position:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="position"
+            name="position"
+            value="{{wpcontent.content.type}}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <h2 class="text-center">Values</h2>
+        </div>
+        <div id="values-container">
+          {% for value in wpcontent.content['values'] %}
+          <div class="value-pair mb-3">
+            {% for key, val in value.items() %}
+            <label for="">Key</label>
+            <input
+              type="text"
+              class="form-control"
+              name="keys[]"
+              value="{{ key }}"
+            />
+            <label for="">Value</label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="values[]"
+              value="{{ val }}"
+            />
+            <button type="button" class="btn btn-danger" onclick="removeValuePair(this)">Remove</button>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" onclick="addKeyValueField()">Add Key-Value Pair</button>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">Edit wpcontent</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function addKeyValueField() {
+      var valuesContainer = document.getElementById('values-container');
+
+      // Crear un contenedor para cada par de campos
+      var fieldContainer = document.createElement('div');
+      fieldContainer.className = 'value-pair mb-3';
+
+      var keyInput = document.createElement('input');
+      keyInput.type = 'text';
+      keyInput.className = 'form-control';
+      keyInput.placeholder = 'Key';
+      keyInput.name = 'keys[]';
+      fieldContainer.appendChild(keyInput);
+
+      var valueInput = document.createElement('input');
+      valueInput.type = 'text';
+      valueInput.className = 'form-control';
+      valueInput.placeholder = 'Value';
+      valueInput.name = 'values[]';
+      fieldContainer.appendChild(valueInput);
+
+      var removeFieldBtn = document.createElement('button');
+      removeFieldBtn.type = 'button';
+      removeFieldBtn.className = 'btn btn-danger';
+      removeFieldBtn.textContent = 'Remove';
+      removeFieldBtn.onclick = function () {
+          valuesContainer.removeChild(fieldContainer);
+      };
+
+      fieldContainer.appendChild(removeFieldBtn);
+
+      valuesContainer.appendChild(fieldContainer);
+  }
+
+  function removeValuePair(button) {
+      var valuesContainer = document.getElementById('values-container');
+      var valuePair = button.parentNode;
+      valuesContainer.removeChild(valuePair);
+  }
+</script>
+{% endblock %}
