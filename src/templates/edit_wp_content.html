@@ -20,27 +20,37 @@
           />
         </div>
         <div class="mb-3">
-          <label for="name" class="form-label">type:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="type"
-            name="type"
-            value="{{wpcontent.content.position}}"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="name" class="form-label">position:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="position"
-            name="position"
-            value="{{wpcontent.content.type}}"
-            required
-          />
-        </div>
+          <label for="wp" class="form-label">Select Waterpoint:</label>
+          <select class="form-select" id="waterpoint" name="waterpoint" required>
+              {% for wp in waterpoint %}
+                  <option value="{{ wp.id }}" {% if wp.id == wpcontent.waterpoint.id %}selected{% endif %}>{{ wp.name }}</option>
+              {% endfor %}
+          </select>                            
+      </div>
+      <div class="mb-3">
+        <label for="wp" class="form-label">Select Category:</label>
+        <select class="form-select" id="typecontent" name="typecontent" required>
+            {% for tp in typecontent %}
+                <option value="{{ tp.id }}" {% if tp.id == wpcontent.type.id %}selected{% endif %}>{{ tp.name }}</option>
+            {% endfor %}
+        </select>                            
+    </div>
+    <div class="mb-3">
+      <label for="type" class="form-label">Select a type :</label>
+      <select class="form-select" id="type" name="type" required>
+          {% for option in options %}
+              <option value="{{ option }}" {% if option == wpcontent.content.type %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="mb-3">
+    <label for="position" class="form-label">Select a position :</label>
+    <select class="form-select" id="position" name="position" required>
+        {% for pos in positions %}
+            <option value="{{ pos }}" {% if option == wpcontent.content.position %}selected{% endif %}>{{ pos }}</option>
+        {% endfor %}
+    </select>
+</div>
         <div class="mb-3">
           <h2 class="text-center">Values</h2>
         </div>

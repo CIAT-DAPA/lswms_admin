@@ -10,6 +10,8 @@ def show_wpcontent():
     wpcontent = Wpcontent.objects()
     waterpoint= Waterpoint.objects()
     typecontent= Typecontent.objects()
+    options = ['icon-x', 'icon-y', 'list', 'text']
+    positions=['left','right']
 
     for valor in wpcontent:
         for objeto in valor.content['values']:
@@ -21,7 +23,7 @@ def show_wpcontent():
 
     
 
-    return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent)
+    return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions)
 @wpcontent_bp.route('/wpcontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
@@ -57,12 +59,21 @@ def add_wpcontent():
 @wpcontent_bp.route('/editwpcontent/<string:id_wpcontent>', methods=['GET', 'POST'])
 def edit_wpcontent(id_wpcontent):
     wpcontent = Wpcontent.objects(id=id_wpcontent).first()
+    waterpoint= Waterpoint.objects()
+    typecontent= Typecontent.objects()
+    options = ['icon-x', 'icon-y', 'list', 'text']
+    positions=['left','right']
+
 
     if request.method == 'POST':
         # Obtener los datos del formulario editado
         title = request.form['title']
+        typecontent = request.form['typecontent']
         type = request.form['type']
+        selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
+        waterpoint = request.form['waterpoint']
+        selected_waterpoint= Waterpoint.objects.get(id=waterpoint)
         keys = request.form.getlist('keys[]')
         values = request.form.getlist('values[]')
         content={
@@ -71,14 +82,14 @@ def edit_wpcontent(id_wpcontent):
             'position': position,
             'values': [{k:v} for k, v in zip(keys, values)]
         }
-        wpcontent.update(content=content)
+        wpcontent.update(content=content,type=selectedtype,waterpoint=selected_waterpoint)
         # Actualizar el documento en la base de datos
-        flash("Adm1 updated successfully")
+        flash("Content updated successfully")
         
 
         # Redirigir a una página de éxito o mostrar un mensaje de éxito
         return redirect('/wpcontent')
-    return render_template('edit_wp_content.html', wpcontent=wpcontent)
+    return render_template('edit_wp_content.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions)
     
 
     # Obtener el documento con el ID proporcionado

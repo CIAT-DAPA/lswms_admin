@@ -22,7 +22,7 @@
     <div class="row">
 
         <!-- lef conainer to add adm1-->
-        <div class="col-md-6">
+        <div class="col-md-6 sticky-container">
             <h2 class="card-title text-center">Add wpcontent</h2>
         
             <div class="card">
@@ -44,7 +44,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="adm1" class="form-label">Select type:</label>
+                            <label for="adm1" class="form-label">Select Caregory:</label>
                             <select class="form-select" id="typecontent" name="typecontent" required>
                                 <option value="" disabled selected>Select type</option>
                                 {% for tpc in typecontent %}
@@ -53,23 +53,26 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="type" class="form-label">Select one type:</label>
-                            <select class="form-select" id="typecontent" name="typecontent" required>
+                            <label for="type" class="form-label">Select a type :</label>
+                            <select class="form-select" id="type" name="type" required>
                                 <option value="" disabled selected>Select type</option>
-                                <option value="icon-x">icon-x</option>
-                                <option value="icon-y">icon-y</option>
-                                <option value="list">list</option>
-                                <option value="text">text</option>
-                                
+
+                                {% for option in options %}
+                                    <option value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
                             </select>
-                        </div><div class="mb-3">
-                            <label for="name" class="form-label">type:</label>
-                            <input type="text" class="form-control" id="type" name="type" required>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">position:</label>
-                            <input type="text" class="form-control" id="position" name="position" required>
+                            <label for="type" class="form-label">Select position:</label>
+                            <select class="form-select" id="position" name="position" required>
+                                <option value="" disabled selected>Select position</option>
+
+                                {% for pos in positions %}
+                                    <option value="{{ pos }}">{{ pos }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
+                       
                         <div class="mb-3">
                             <h2 class="text-center">Values</h2>
                         </div>
@@ -208,6 +211,20 @@
         }
     }
 </script>
+<style>
+    /* Estilos para el contenedor de la izquierda */
+    .sticky-container {
+        position: sticky;
+        top: 20px; /* Ajusta la distancia desde la parte superior según tus necesidades */
+        height: calc(100vh - 40px); /* Ajusta la altura según tus necesidades */
+        overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+    }
+
+    /* Estilos para las tablas en la derecha */
+    .table {
+        margin-right: 20px; /* Ajusta el margen derecho según el ancho del contenedor de la izquierda */
+    }
+</style>
 {% endfor %}
 
 {% endblock %}
