@@ -53,6 +53,7 @@ def add_wpcontent():
 @wscontent_bp.route('/editwscontent/<string:id_wscontent>', methods=['GET', 'POST'])
 def edit_wscontent(id_wscontent):
     wscontent = Wscontent.objects(id=id_wscontent).first()
+    print(wscontent.content)
     watershed= Watershed.objects()
     typecontent= Typecontent.objects()
     options = ['icon-x', 'icon-y', 'list', 'text']

@@ -46,11 +46,12 @@
   <div class="mb-3">
     <label for="position" class="form-label">Select a position :</label>
     <select class="form-select" id="position" name="position" required>
-        {% for pos in positions %}
-            <option value="{{ pos }}" {% if option == wscontent.content.position %}selected{% endif %}>{{ pos }}</option>
+        {% for ps in positions %}
+            <option value="{{ ps }}" {% if ps == wscontent.content['position'] %}selected{% endif %}>{{ ps }}</option>
         {% endfor %}
     </select>
 </div>
+
         <div class="mb-3">
           <h2 class="text-center">Values</h2>
         </div>
