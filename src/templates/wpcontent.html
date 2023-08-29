@@ -35,6 +35,34 @@
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         <div class="mb-3">
+                            <label for="adm1" class="form-label">Select waterpoint:</label>
+                            <select class="form-select" id="waterpoint" name="waterpoint" required>
+                                <option value="" disabled selected>Select  waterpoint</option>
+                                {% for wp in waterpoint %}
+                                    <option value="{{ wp.id }}">{{ wp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adm1" class="form-label">Select type:</label>
+                            <select class="form-select" id="typecontent" name="typecontent" required>
+                                <option value="" disabled selected>Select type</option>
+                                {% for tpc in typecontent %}
+                                    <option value="{{ tpc.id }}">{{ tpc.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Select one type:</label>
+                            <select class="form-select" id="typecontent" name="typecontent" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="icon-x">icon-x</option>
+                                <option value="icon-y">icon-y</option>
+                                <option value="list">list</option>
+                                <option value="text">text</option>
+                                
+                            </select>
+                        </div><div class="mb-3">
                             <label for="name" class="form-label">type:</label>
                             <input type="text" class="form-control" id="type" name="type" required>
                         </div>

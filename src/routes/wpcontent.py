@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, redirect, request,flash
 from ormWP import Wpcontent
+from ormWP import Waterpoint
+from ormWP import Typecontent
 from datetime import datetime
 wpcontent_bp = Blueprint('wpcontent', __name__)
 
 @wpcontent_bp.route('/wpcontent')
 def show_wpcontent():
     wpcontent = Wpcontent.objects()
+    waterpoint= Waterpoint.objects()
+    typecontent= Typecontent.objects()
 
     for valor in wpcontent:
         for objeto in valor.content['values']:
@@ -17,14 +21,18 @@ def show_wpcontent():
 
     
 
-    return render_template('wpcontent.html', wpcontent=wpcontent)
+    return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent)
 @wpcontent_bp.route('/wpcontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
         # Obtener los datos del formulario
         title = request.form['title']
+        typecontent = request.form['typecontent']
         type = request.form['type']
+        selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
+        waterpoint = request.form['waterpoint']
+        selected_waterpoint= Waterpoint.objects.get(id=waterpoint)
         keys = request.form.getlist('keys[]') 
         traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
          # Obtener una lista de keys
@@ -37,7 +45,7 @@ def add_wpcontent():
             'trace':traced
         }
         # Crear un objeto que contenga title, type, position y los pares key-value
-        wpcontent_obj = Wpcontent(type='64d1bf27e68bf4ca8e6a3bd3',waterpoint='64d1bf1cc703fe54e05ee7de',content=content) 
+        wpcontent_obj = Wpcontent(type=selectedtype,waterpoint=selected_waterpoint,content=content) 
 
         # Agregar el objeto a la lista
         wpcontent_obj.save()
