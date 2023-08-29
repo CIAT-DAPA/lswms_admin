@@ -1,0 +1,135 @@
+{% extends 'layout.html' %} 
+{% block body %}
+<div class="">
+  <h2 class="card-title text-center">Edit wscontent</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <p class="">Fill in the fields</p>
+
+      <form method="POST" action="/editwscontent/{{wscontent.id}}">
+        <div class="mb-3">
+          <label for="name" class="form-label">title:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            value="{{wscontent.content.title}}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="wp" class="form-label">Select Watershed:</label>
+          <select class="form-select" id="watershed" name="watershed" required>
+              {% for ws in watershed %}
+                  <option value="{{ ws.id }}" {% if ws.id == wscontent.watershed.id %}selected{% endif %}>{{ ws.name }}</option>
+              {% endfor %}
+          </select>                            
+      </div>
+      <div class="mb-3">
+        <label for="wp" class="form-label">Select Category:</label>
+        <select class="form-select" id="typecontent" name="typecontent" required>
+            {% for tp in typecontent %}
+                <option value="{{ tp.id }}" {% if tp.id == wscontent.type.id %}selected{% endif %}>{{ tp.name }}</option>
+            {% endfor %}
+        </select>                            
+    </div>
+    <div class="mb-3">
+      <label for="type" class="form-label">Select a type :</label>
+      <select class="form-select" id="type" name="type" required>
+          {% for option in options %}
+              <option value="{{ option }}" {% if option == wscontent.content.type %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="mb-3">
+    <label for="position" class="form-label">Select a position :</label>
+    <select class="form-select" id="position" name="position" required>
+        {% for pos in positions %}
+            <option value="{{ pos }}" {% if option == wscontent.content.position %}selected{% endif %}>{{ pos }}</option>
+        {% endfor %}
+    </select>
+</div>
+        <div class="mb-3">
+          <h2 class="text-center">Values</h2>
+        </div>
+        <div id="values-container">
+          {% for value in wscontent.content['values'] %}
+          <div class="value-pair mb-3">
+            {% for key, val in value.items() %}
+            <label for="">Key</label>
+            <input
+              type="text"
+              class="form-control"
+              name="keys[]"
+              value="{{ key }}"
+            />
+            <label for="">Value</label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="values[]"
+              value="{{ val }}"
+            />
+            <button type="button" class="btn btn-danger" onclick="removeValuePair(this)">Remove</button>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" onclick="addKeyValueField()">Add Key-Value Pair</button>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">Edit wscontent</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function addKeyValueField() {
+      var valuesContainer = document.getElementById('values-container');
+
+      // Crear un contenedor para cada par de campos
+      var fieldContainer = document.createElement('div');
+      fieldContainer.className = 'value-pair mb-3';
+
+      var keyInput = document.createElement('input');
+      keyInput.type = 'text';
+      keyInput.className = 'form-control';
+      keyInput.placeholder = 'Key';
+      keyInput.name = 'keys[]';
+      fieldContainer.appendChild(keyInput);
+
+      var valueInput = document.createElement('input');
+      valueInput.type = 'text';
+      valueInput.className = 'form-control';
+      valueInput.placeholder = 'Value';
+      valueInput.name = 'values[]';
+      fieldContainer.appendChild(valueInput);
+
+      var removeFieldBtn = document.createElement('button');
+      removeFieldBtn.type = 'button';
+      removeFieldBtn.className = 'btn btn-danger';
+      removeFieldBtn.textContent = 'Remove';
+      removeFieldBtn.onclick = function () {
+          valuesContainer.removeChild(fieldContainer);
+      };
+
+      fieldContainer.appendChild(removeFieldBtn);
+
+      valuesContainer.appendChild(fieldContainer);
+  }
+
+  function removeValuePair(button) {
+      var valuesContainer = document.getElementById('values-container');
+      var valuePair = button.parentNode;
+      valuesContainer.removeChild(valuePair);
+  }
+</script>
+{% endblock %}

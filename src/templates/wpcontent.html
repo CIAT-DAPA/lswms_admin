@@ -46,7 +46,7 @@
                         <div class="mb-3">
                             <label for="adm1" class="form-label">Select Caregory:</label>
                             <select class="form-select" id="typecontent" name="typecontent" required>
-                                <option value="" disabled selected>Select type</option>
+                                <option value="" disabled selected>Select category</option>
                                 {% for tpc in typecontent %}
                                     <option value="{{ tpc.id }}">{{ tpc.name }}</option>
                                 {% endfor %}

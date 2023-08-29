@@ -8,7 +8,7 @@ from routes.watershed import watershed_bp
 from routes.waterpoint import waterpoint_bp
 from routes.typecontent import typecontent_bp
 from routes.wpcontent import wpcontent_bp
-
+from routes.wscontent import wscontent_bp
 app = Flask(__name__)
 app.config.from_object(Config)
 connect(
@@ -27,6 +27,7 @@ app.register_blueprint(watershed_bp)
 app.register_blueprint(waterpoint_bp)
 app.register_blueprint(typecontent_bp)
 app.register_blueprint(wpcontent_bp)
+app.register_blueprint(wscontent_bp)
 
 
 
