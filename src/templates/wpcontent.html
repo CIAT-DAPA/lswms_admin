@@ -80,10 +80,15 @@
                             <!-- Dynamic Key-Value Fields Will Be Added Here -->
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary" onclick="addKeyValueField()">Add Key-Value</button>
+                            <button class="btn btn-success add-button add" onclick="addKeyValueField()">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success">Add wpcontent</button>
+                            <button type="submit "class="btn btn-primary save-button">
+                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
+                            </button>
+                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
                         </div>
                     </form>
                 </div>
@@ -163,7 +168,7 @@
     function addKeyValueField() {
         var valuesContainer = document.getElementById('values-container');
 
-        // Crear un contenedor para cada par de campos
+        // Create a container for each pair of fields
         var fieldContainer = document.createElement('div');
         fieldContainer.className = 'mb-3';
 
@@ -172,26 +177,33 @@
         keyInput.className = 'form-control';
         keyInput.placeholder = 'Key';
         keyInput.name = 'keys[]'; // Use an array to send multiple keys in form data
-        fieldContainer.appendChild(keyInput);
 
         var valueInput = document.createElement('input');
         valueInput.type = 'text';
         valueInput.className = 'form-control';
         valueInput.placeholder = 'Value';
         valueInput.name = 'values[]'; // Use an array to send multiple values in form data
-        fieldContainer.appendChild(valueInput);
 
-        // Crear un botón para eliminar este par de campos
+        // Create a button to remove this pair of fields with a trash icon
         var removeFieldBtn = document.createElement('button');
         removeFieldBtn.type = 'button';
-        removeFieldBtn.className = 'btn btn-danger';
-        removeFieldBtn.textContent = 'Remove';
+        removeFieldBtn.className = 'btn btn-danger float-end remove-button';
+        
+        // Create an icon element for removal
+        var removeIcon = document.createElement('i');
+        removeIcon.className = 'fas fa-trash'; // Assuming you're using FontAwesome icons
+        
+        // Append the icon to the remove button
+        removeFieldBtn.appendChild(removeIcon);
+        
         removeFieldBtn.onclick = function () {
             valuesContainer.removeChild(fieldContainer);
             checkRemoveButtonVisibility();
         };
 
-        // Agregar el botón de eliminar entre los campos de entrada
+        // Append the key and value input fields, then the remove button
+        fieldContainer.appendChild(keyInput);
+        fieldContainer.appendChild(valueInput);
         fieldContainer.appendChild(removeFieldBtn);
 
         valuesContainer.appendChild(fieldContainer);
@@ -211,6 +223,33 @@
         }
     }
 </script>
+
+<style>
+    /* Estilos para centrar la "X" en el botón de remover */
+    .remove-button {
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px; /* Ajusta la altura según sea necesario */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+    .add{
+        border-radius: 50%;
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px;
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px; /* Ajusta la altura según sea necesario */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+</style>
+
+
 <style>
     /* Estilos para el contenedor de la izquierda */
     .sticky-container {
