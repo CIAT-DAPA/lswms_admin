@@ -9,8 +9,11 @@ from routes.waterpoint import waterpoint_bp
 from routes.typecontent import typecontent_bp
 from routes.wpcontent import wpcontent_bp
 from routes.wscontent import wscontent_bp
+import os
 app = Flask(__name__)
 app.config.from_object(Config)
+app.secret_key = os.urandom(24)
+
 connect(
     db=app.config['MONGODB_SETTINGS']['db'],
     host=app.config['MONGODB_SETTINGS']['host'],
@@ -32,5 +35,5 @@ app.register_blueprint(wscontent_bp)
 
 
 if __name__ == '__main__':
-    app.secret_key = "super secret key"
+    
     app.run()
