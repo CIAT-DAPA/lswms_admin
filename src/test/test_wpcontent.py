@@ -53,7 +53,7 @@ class TestWpcontentBlueprint(unittest.TestCase):
         wpcontent = Wpcontent(waterpoint='64d1bf1cc703fe54e05ee7d6', type='64d1bf27e68bf4ca8e6a3bd3',content={})
         wpcontent.save()
 
-        response = self.client.get(f'/deletewpcontent/{wpcontent.id}', follow_redirects=True)
+        response = self.client.get(f'/deletewpcontent/64e66483c3b3f6f36b810e7c', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         # Verify if the data is deleted correctly from the in-memory database (if applicable)
 
