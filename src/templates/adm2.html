@@ -46,7 +46,10 @@
                             <input type="number" class="form-control" id="ext_id" name="ext_id" required>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success">Add Adm2</button>
+                            <button type="submit "class="btn btn-primary save-button">
+                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
+                            </button>
+                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
                         </div>
                     </form>
                 </div>
@@ -72,9 +75,11 @@
                         <td>{{ adm.ext_id }}</td>
                         <td>
                             <div class="text-center">
-                                <a href="/editadm2/{{ adm.id }}" class="btn btn-warning">Edit</a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}">Delete</a>
+                                <a href="/editadm2/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
                             </div>
+                            
+                            
                         </td>
                     </tr>
                     {% endfor %}

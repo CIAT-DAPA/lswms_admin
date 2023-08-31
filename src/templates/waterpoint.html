@@ -16,7 +16,7 @@
     </div>
   </div>
 </div> -->
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5 ">
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -75,7 +75,10 @@
                             <input type="number" class="form-control" id="ext_id" name="ext_id" required>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success">Add Waterpoint</button>
+                            <button type="submit "class="btn btn-primary save-button">
+                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
+                            </button>
+                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
                         </div>
                     </form>
                 </div>
@@ -107,9 +110,10 @@
                         <td>{{ wtp.ext_id }}</td> 
                         <td>
                             <div class="text-center">
-                                <a href="/editwaterpoint/{{ wtp.id }}" class="btn btn-warning">Edit</a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wtp.id }}">Delete</a>
+                                <a href="/editwaterpoint/{{ wtp.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wtp.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
                             </div>
+                            
                         </td>
                     </tr>
                     {% endfor %}
@@ -139,6 +143,7 @@
     </div>
     
 </div>
+
 {% endfor %}
 
 {% endblock %}

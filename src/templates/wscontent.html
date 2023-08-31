@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to watershed content</h5>
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Watershed content. If you cannot find the watershed, you can <a href="/watershed">create it here</a>. If you cannot find the category, you can <a href="/typecontent">create it here</a>.</h5>
+
 
 <div class="container-fluid mt-5">
 
@@ -23,7 +24,7 @@
 
         <!-- lef conainer to add adm1-->
         <div class="col-md-6 sticky-container">
-            <h2 class="card-title text-center">Add wscontent</h2>
+            <h2 class="card-title text-center">Add Watershed content</h2>
         
             <div class="card">
                 <div class="card-body">
@@ -80,7 +81,7 @@
                             <!-- Dynamic Key-Value Fields Will Be Added Here -->
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-success add-button add" onclick="addKeyValueField()">
+                            <button type="button" class="btn btn-success add-button add" title="Add Field" onclick="addKeyValueField()">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -97,7 +98,7 @@
 
         <!-- right table to edit adm     -->
         <div class="col-md-6">
-            <h2 class="text-center">List of Ws contents</h2>
+            <h2 class="text-center">List Contents</h2>
             
           
             {% for wsc in wscontent %}
@@ -106,19 +107,13 @@
                     <tr>
                         <th>Title</th>
                         <th>Type</th>
-                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ wsc.content.title }}</td>
                         <td>{{ wsc.content.type }}</td>
-                        <td>
-                            <div class="text-center">
-                                <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning">Edit</a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}">Delete</a>
-                            </div>
-                        </td>
+                        
                     </tr>
                     <tr>
                         <td><strong>Key</strong></td>
@@ -140,6 +135,14 @@
                     {% endfor %}
                 </tbody>
             </table>
+           
+               
+                <div class="text-center mb-2">
+                    <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                </div>
+                
+           
             {% endfor %}
             
         </div>
@@ -191,7 +194,8 @@
         
         // Create an icon element for removal
         var removeIcon = document.createElement('i');
-        removeIcon.className = 'fas fa-trash'; // Assuming you're using FontAwesome icons
+        removeIcon.className = 'fas fa-trash';
+        removeIcon.title='Remove Field' // Assuming you're using FontAwesome icons
         
         // Append the icon to the remove button
         removeFieldBtn.appendChild(removeIcon);
@@ -247,6 +251,18 @@
         justify-content: center;
         margin: 10px;
     }
+    .sticky-container {
+        position: sticky;
+        top: 20px; /* Ajusta la distancia desde la parte superior según tus necesidades */
+        height: calc(100vh - 40px); /* Ajusta la altura según tus necesidades */
+        overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+    }
+
+    /* Estilos para las tablas en la derecha */
+    .table {
+        margin-right: 20px; /* Ajusta el margen derecho según el ancho del contenedor de la izquierda */
+    }
+   
 </style>
 {% endfor %}
 

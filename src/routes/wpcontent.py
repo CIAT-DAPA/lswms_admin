@@ -83,16 +83,16 @@ def edit_wpcontent(id_wpcontent):
             'values': [{k:v} for k, v in zip(keys, values)]
         }
         wpcontent.update(content=content,type=selectedtype,waterpoint=selected_waterpoint)
-        # Actualizar el documento en la base de datos
+        
         flash("Content updated successfully")
         
 
-        # Redirigir a una página de éxito o mostrar un mensaje de éxito
+       
         return redirect('/wpcontent')
     return render_template('edit_wp_content.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions)
     
 
-    # Obtener el documento con el ID proporcionado
+  
     
 
 @wpcontent_bp.route('/deletewpcontent/<string:wpcontent_id>')

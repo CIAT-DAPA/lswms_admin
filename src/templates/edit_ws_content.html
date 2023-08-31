@@ -74,7 +74,7 @@
               name="values[]"
               value="{{ val }}"
             />
-            <button type="button" class="btn btn-danger float-end remove-button" onclick="removeValuePair(this)">
+            <button type="button" class="btn btn-danger float-end remove-button" title="Remove Field" onclick="removeValuePair(this)">
               <i class="fas fa-trash"></i>
 
             </button>
@@ -84,7 +84,7 @@
         </div>
         
         <div class="text-center">
-          <button type="button" class="btn btn-success add-button add" onclick="addKeyValueField()">
+          <button type="button" class="btn btn-success add-button add" title="Add Field" onclick="addKeyValueField()">
               <i class="fas fa-plus"></i>
           </button>
       </div>
@@ -143,12 +143,12 @@
       valueInput.name = 'values[]';
       fieldContainer.appendChild(valueInput);
 
-      var removeFieldBtn = document.createElement('button');
-      removeFieldBtn.type = 'button';
+    
       var removeFieldBtn = document.createElement('button');
       removeFieldBtn.type = 'button';
       removeFieldBtn.className = 'btn btn-danger float-end remove-button';
       var removeIcon = document.createElement('i');
+      removeFieldBtn.title = 'Remove Field';
       removeIcon.className = 'fas fa-trash';
       removeFieldBtn.appendChild(removeIcon);
       removeFieldBtn.onclick = function () {
