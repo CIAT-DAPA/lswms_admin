@@ -1,0 +1,55 @@
+{%extends 'layout.html' %}
+{% block body%}
+<div class="container-fluid d-flex justify-content-center " style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h2 class="card-title text-center">Edit Waterpoint</h2>
+    
+        <div class="card">
+    
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="/editwaterpoint/{{waterpoint.id}}">
+                        <div class="mb-3">
+                            <label for="adm1" class="form-label">Select Watershed:</label>
+                            <select class="form-select" id="watershed" name="watershed" required>
+                                {% for wsh in watershed %}
+                                    <option value="{{ wsh.id }}" {% if wsh.id == waterpoint.watershed.id %}selected{% endif %}>{{ wsh.name }}</option>
+                                {% endfor %}
+                            </select>
+                            
+                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{waterpoint.name}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lat" class="form-label">Latitude:</label>
+                            <input type="number" class="form-control" id="lat" name="lat" value="{{waterpoint.lat}}" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Longitude:</label>
+                            <input type="number" class="form-control" id="lon" name="lon" value="{{waterpoint.lon}}" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Area:</label>
+                            <input type="number" class="form-control" id="area" name="area" value="{{waterpoint.area}}" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Ext_id:</label>
+                            <input type="number" class="form-control" id="ext_id" name="ext_id" value="{{waterpoint.ext_id}}" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-warning edit-button" type="button">
+                              <i class="fas fa-edit"></i> Edit
+                          </button>
+                          
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,150 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to WaterPoints.</h5>
+
+
+<!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div> -->
+<div class="container-fluid mt-5 ">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+   
+            {% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+    <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+        {{ message }}
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+            {% endfor %} 
+    
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <!-- lef conainer to add adm1-->
+        <div class="col-md-6">
+            <h2 class="card-title text-center">Add Waterpoint</h2>
+
+
+            <div class="card">
+                <div class="card-body">
+            <p class="">Fill in the fields, if you don't find the watershed in the list, you can create it <a href="/watershed">here</a> </p>
+
+                    <form method="POST" action="/waterpoint/add">
+                        <div class="mb-3">
+                            <label for="waterpoint" class="form-label">Select Watershed:</label>
+                            <select class="form-select" id="watershed" name="watershed" required>
+                                <option value="" disabled selected>Select Watershed</option>
+                                {% for wsh in watershed %}
+                                    <option value="{{ wsh.id }}">{{ wsh.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name Waterpoint:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Latitude:</label>
+                            <input type="number" class="form-control" id="lat" name="lat" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Longitude:</label>
+                            <input type="number" class="form-control" id="lon" name="lon" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Area:</label>
+                            <input type="number" class="form-control" id="area" name="area" step="any" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Ext_id:</label>
+                            <input type="number" class="form-control" id="ext_id" name="ext_id" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit "class="btn btn-primary save-button">
+                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
+                            </button>
+                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- right table to edit adm     -->
+        <div class="col-md-6">
+            <h2 class="text-center">List of WaterPoints </h2>
+            
+            <table class="table table-striped table-bordered bg-white">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Area</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Ext ID</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wtp in waterpoint %}
+                    <tr>
+                        <td>{{ wtp.name }}</td>
+                        <td>{{ wtp.area }}</td>
+                        <td>{{ wtp.lat }}</td> 
+                        <td>{{ wtp.lon }}</td> 
+                        <td>{{ wtp.ext_id }}</td> 
+                        <td>
+                            <div class="text-center">
+                                <a href="/editwaterpoint/{{ wtp.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wtp.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+{% for wtp in waterpoint %}
+<div class="modal fade" id="deleteModal-{{ wtp.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wtp.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ wtp.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Waterpoint?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/deletewaterpoint/{{ wtp.id }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
