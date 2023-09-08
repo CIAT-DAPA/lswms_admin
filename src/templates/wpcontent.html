@@ -57,6 +57,15 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label for="adm1" class="form-label">Select Language:</label>
+                            <select class="form-select" id="language" name="language" required>
+                                <option value="" disabled selected>Select  language</option>
+                                {% for lg in languages %}
+                                    <option value="{{ lg.value }}">{{ lg.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="type" class="form-label">Select a type :</label>
                             <select class="form-select" id="type" name="type" required>
                                 <option value="" disabled selected>Select type</option>
