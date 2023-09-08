@@ -12,18 +12,14 @@ def show_wpcontent():
     typecontent= Typecontent.objects()
     options = ['icon-x', 'icon-y', 'list', 'text']
     positions=['left','right']
-
-    for valor in wpcontent:
-        for objeto in valor.content['values']:
-            if isinstance(objeto, dict):  # Verifica si es un diccionario
-                for key, value in objeto.items():
-                    print(f'Clave: {key}, Valor: {value}')
-            else:
-                print(objeto)
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
 
     
-
-    return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions)
+    return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions,languages=languages)
 @wpcontent_bp.route('/wpcontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
@@ -34,6 +30,7 @@ def add_wpcontent():
         selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
         waterpoint = request.form['waterpoint']
+        language = request.form['language']
         selected_waterpoint= Waterpoint.objects.get(id=waterpoint)
         keys = request.form.getlist('keys[]') 
         traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
@@ -43,6 +40,7 @@ def add_wpcontent():
             'title': title,
             'type': type,
             'position': position,
+            'language':language,
             'values': [{k:v} for k, v in zip(keys, values)],
             'trace':traced
         }
@@ -61,25 +59,36 @@ def edit_wpcontent(id_wpcontent):
     wpcontent = Wpcontent.objects(id=id_wpcontent).first()
     waterpoint= Waterpoint.objects()
     typecontent= Typecontent.objects()
+    
+
     options = ['icon-x', 'icon-y', 'list', 'text']
     positions=['left','right']
-
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
 
     if request.method == 'POST':
         # Obtener los datos del formulario editado
+        
         title = request.form['title']
         typecontent = request.form['typecontent']
         type = request.form['type']
         selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
+        language=request.form['language']
         waterpoint = request.form['waterpoint']
         selected_waterpoint= Waterpoint.objects.get(id=waterpoint)
         keys = request.form.getlist('keys[]')
         values = request.form.getlist('values[]')
+        wpcontent.content['trace']['updated'] = datetime.now()
         content={
             'title': title,
             'type': type,
             'position': position,
+            'language':language,
+            'trace':wpcontent.content['trace'],
             'values': [{k:v} for k, v in zip(keys, values)]
         }
         wpcontent.update(content=content,type=selectedtype,waterpoint=selected_waterpoint)
@@ -89,7 +98,7 @@ def edit_wpcontent(id_wpcontent):
 
        
         return redirect('/wpcontent')
-    return render_template('edit_wp_content.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions)
+    return render_template('edit_wp_content.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions,languages=languages)
     
 
   
