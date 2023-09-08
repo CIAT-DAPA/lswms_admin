@@ -12,12 +12,15 @@ def show_wscontent():
     typecontent= Typecontent.objects()
     options = ['icon-x', 'icon-y', 'list', 'text']
     positions=['left','right']
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
 
     
 
-    
-
-    return render_template('wscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions)
+    return render_template('wscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
 @wscontent_bp.route('/wscontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
@@ -28,6 +31,7 @@ def add_wpcontent():
         selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
         watershed = request.form['watershed']
+        language = request.form['language']
         selected_watershed= Watershed.objects.get(id=watershed)
         keys = request.form.getlist('keys[]') 
         traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
@@ -37,6 +41,7 @@ def add_wpcontent():
             'title': title,
             'type': type,
             'position': position,
+            'language':language,
             'values': [{k:v} for k, v in zip(keys, values)],
             'trace':traced
         }
@@ -58,6 +63,11 @@ def edit_wscontent(id_wscontent):
     typecontent= Typecontent.objects()
     options = ['icon-x', 'icon-y', 'list', 'text']
     positions=['left','right']
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
 
 
     if request.method == 'POST':
@@ -65,16 +75,21 @@ def edit_wscontent(id_wscontent):
         title = request.form['title']
         typecontent = request.form['typecontent']
         type = request.form['type']
+        language = request.form['language']
+
         selectedtype=Typecontent.objects.get(id=typecontent)
         position = request.form['position']
         watershed = request.form['watershed']
         selected_watershed= Watershed.objects.get(id=watershed)
         keys = request.form.getlist('keys[]')
         values = request.form.getlist('values[]')
+        wscontent.content['trace']['updated'] = datetime.now()
         content={
             'title': title,
             'type': type,
             'position': position,
+            'language':language,
+            'trace':wscontent.content['trace'],
             'values': [{k:v} for k, v in zip(keys, values)]
         }
         wscontent.update(content=content,type=selectedtype,watershed=selected_watershed)
@@ -84,7 +99,7 @@ def edit_wscontent(id_wscontent):
 
         # Redirigir a una página de éxito o mostrar un mensaje de éxito
         return redirect('/wscontent')
-    return render_template('edit_ws_content.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions)
+    return render_template('edit_ws_content.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
     
 
     # Obtener el documento con el ID proporcionado
