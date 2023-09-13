@@ -61,7 +61,8 @@ The parameters to be configured are found in the `config.py` file. This file has
 
 | Parameter     |type   | Description|
 |---------------|-------|------------|
-|DB             |String |Database Name.|
-|HOST           |string |IP or hostname of the server in which is the wep admin. By default is: 0.0.0.0|
-|PORT           |string |Port in which is available the wep admin in the server. By default is: 5000   |
+|DEBUG          |boolean|boolean that defines whether you are in a test environment or in production.|
+|HOST           |string |IP or hostname of the server in which is the wep api. By default is: 0.0.0.0|
+|PORT           |string |Port in which is available the wep api in the server. By default is: 5000   |
 |CONNECTION_DB  |string |utl for connection to the database                                          |
+
