@@ -1,15 +1,14 @@
-import os
-from dotenv import load_dotenv
+import os 
 
-load_dotenv()
+config = {}
 
-class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    MONGODB_SETTINGS = {
-        'db': os.environ.get('MONGO_DBNAME'),
-        'host': 'localhost',
-        'port': 27017,
-        'username': os.environ.get('MONGO_USERNAME'),
-        'password': os.environ.get('MONGO_PASSWORD'),
-        'authentication_source': os.environ.get('MONGO_AUTH_SOURCE')
-    }
+if os.getenv('DEBUG', "true").lower() == "true":
+    config['DEBUG'] = True
+    config['HOST'] = 'localhost'
+    config['PORT'] = 5001
+    config['CONNECTION_DB']='mongodb://root:s3cr3t@localhost:27017/waterpoints?authSource=admin'
+else:
+    config['DEBUG'] = False
+    config['HOST'] = '0.0.0.0'
+    config['PORT'] = os.getenv('WP_PORT')
+    config['CONNECTION_DB']=os.getenv('CONNECTION_DB')
