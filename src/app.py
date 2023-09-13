@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from mongoengine import connect
-from config import Config
 from routes.adm1 import adm1_bp
 from routes.adm2 import adm2_bp
 from routes.adm3 import adm3_bp
@@ -9,19 +8,12 @@ from routes.waterpoint import waterpoint_bp
 from routes.typecontent import typecontent_bp
 from routes.wpcontent import wpcontent_bp
 from routes.wscontent import wscontent_bp
+from config import config
 import os
 app = Flask(__name__)
-app.config.from_object(Config)
 app.secret_key = os.urandom(24)
 
-connect(
-    db=app.config['MONGODB_SETTINGS']['db'],
-    host=app.config['MONGODB_SETTINGS']['host'],
-    port=app.config['MONGODB_SETTINGS']['port'],
-    username=app.config['MONGODB_SETTINGS']['username'],
-    password=app.config['MONGODB_SETTINGS']['password'],
-    authentication_source=app.config['MONGODB_SETTINGS']['authentication_source']
-)
+
 
 app.register_blueprint(adm1_bp)
 app.register_blueprint(adm2_bp)
@@ -35,5 +27,11 @@ app.register_blueprint(wscontent_bp)
 
 
 if __name__ == '__main__':
+    connect(host=config['CONNECTION_DB'])
+    print("Connected DB")
     
-    app.run()
+    if config['DEBUG']:
+        app.run(threaded=True, port=config['PORT'], debug=config['DEBUG'])
+    else:
+        app.run(host=config['HOST'], port=config['PORT'],
+                debug=config['DEBUG'])
