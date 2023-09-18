@@ -8,6 +8,11 @@ def show_adm1():
     adm1 = Adm1.objects(trace__enabled=True)
     return render_template('adm1.html', adm1=adm1)
 
+@adm1_bp.route('/addadm1')
+def addd_adm1():
+    adm1 = Adm1.objects(trace__enabled=True)
+    return render_template('addAdm1.html', adm1=adm1)
+
 @adm1_bp.route('/adm1/add', methods=['POST'])
 def add_adm1():
     name = request.form['name']
@@ -38,10 +43,6 @@ def edit_adm1(adm1_id):
 @adm1_bp.route('/delete/<string:adm1_id>')
 def delete_adm1(adm1_id):
     adm1 = Adm1.objects(id=adm1_id).first()
-    trace = adm1.trace
-
-    trace['enabled'] = False
-    adm1.update(trace=trace)
 
     if adm1:
         trace = adm1.trace

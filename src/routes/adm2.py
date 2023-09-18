@@ -6,10 +6,17 @@ adm2_bp = Blueprint('adm2', __name__)
 
 @adm2_bp.route('/adm2')
 def show_adm2():
-    adm2 = Adm2.objects()
-    adm1=Adm1.objects()
+    adm2 = Adm2.objects(trace__enabled=True)
+    adm1 = Adm1.objects(trace__enabled=True)
+
     return render_template('adm2.html', adm2=adm2, adm1=adm1)
 
+@adm2_bp.route('/addadm2')
+def addd_adm2():
+    adm2 = Adm2.objects(trace__enabled=True)
+    adm1 = Adm1.objects(trace__enabled=True)
+
+    return render_template('addAdm2.html', adm2=adm2, adm1=adm1)
 @adm2_bp.route('/adm2/add', methods=['POST'])
 def add_adm2():
     name = request.form['name']
@@ -44,9 +51,13 @@ def edit_adm2(adm2_id):
 @adm2_bp.route('/deleteadm2/<string:adm2_id>')
 def delete_adm2(adm2_id):
     adm2 = Adm2.objects(id=adm2_id).first()
+    
 
     if adm2:
-        adm2.delete()
+        trace = adm2.trace
+
+        trace['enabled'] = False
+        adm2.update(trace=trace)
         flash("Adm2 deleted successfully")
     else:
         flash("Adm2 not found")

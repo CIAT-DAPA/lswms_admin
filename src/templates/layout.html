@@ -56,7 +56,7 @@
 
 
   <body>
-    <div class="container-fluid cont  " style="margin-top: 100px;">{% block body %} {% endblock %}</div>
+    <div class="container-fluid cont" style="margin-top: 100px;">{% block body %} {% endblock %}</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         // Selecciona todas las alertas con la clase "auto-dismiss-alert"
@@ -70,10 +70,13 @@
             }, 5000); // 2000 milisegundos = 2 segundos
         });
     </script>
+   <script   src="https://code.jquery.com/jquery-3.7.0.js"> </script>
+   <script   src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"> </script>
+   <script   src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"> </script>
+   <script src="../static/js/script.js"></script>
    
-    
   </body>
-  <footer>
+  <footer >
     <div class="container">
         <div class="row justify-content-between align-items-center py-3">
             <div class="col col-lg-4">
@@ -103,7 +106,6 @@
        
     background-color: #04335D;
     color: white;
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -112,9 +114,7 @@ a{
     text-decoration: none;
 }
 
-.cont{
-    margin-bottom: 130px;
-}
+
 
   </style>
 </html>
