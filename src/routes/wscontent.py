@@ -10,7 +10,8 @@ def show_wscontent():
     wscontent = Wscontent.objects()
     watershed= Watershed.objects()
     typecontent= Typecontent.objects()
-    options = ['icon-x', 'icon-y', 'list', 'text']
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
+
     positions=['left','right']
     languages = [
         {'label': 'Amharic', 'value': 'am'},
@@ -61,7 +62,7 @@ def edit_wscontent(id_wscontent):
     print(wscontent.content)
     watershed= Watershed.objects()
     typecontent= Typecontent.objects()
-    options = ['icon-x', 'icon-y', 'list', 'text']
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
     positions=['left','right']
     languages = [
         {'label': 'Amharic', 'value': 'am'},

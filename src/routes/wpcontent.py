@@ -10,7 +10,7 @@ def show_wpcontent():
     wpcontent = Wpcontent.objects()
     waterpoint= Waterpoint.objects()
     typecontent= Typecontent.objects()
-    options = ['icon-x', 'icon-y', 'list', 'text']
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
     positions=['left','right']
     languages = [
         {'label': 'Amharic', 'value': 'am'},
@@ -61,7 +61,8 @@ def edit_wpcontent(id_wpcontent):
     typecontent= Typecontent.objects()
     
 
-    options = ['icon-x', 'icon-y', 'list', 'text']
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
+
     positions=['left','right']
     languages = [
         {'label': 'Amharic', 'value': 'am'},
