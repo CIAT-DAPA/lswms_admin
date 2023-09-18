@@ -5,7 +5,7 @@ adm1_bp = Blueprint('adm1', __name__)
 
 @adm1_bp.route('/')
 def show_adm1():
-    adm1 = Adm1.objects()
+    adm1 = Adm1.objects(trace__enabled=True)
     return render_template('adm1.html', adm1=adm1)
 
 @adm1_bp.route('/adm1/add', methods=['POST'])
@@ -38,9 +38,16 @@ def edit_adm1(adm1_id):
 @adm1_bp.route('/delete/<string:adm1_id>')
 def delete_adm1(adm1_id):
     adm1 = Adm1.objects(id=adm1_id).first()
+    trace = adm1.trace
+
+    trace['enabled'] = False
+    adm1.update(trace=trace)
 
     if adm1:
-        adm1.delete()
+        trace = adm1.trace
+
+        trace['enabled'] = False
+        adm1.update(trace=trace)
         flash("Adm1 deleted successfully")
     else:
         flash("Adm1 not found")

@@ -52,6 +52,9 @@
         <!-- right table to edit adm     -->
         <div class="col-md-6">
             <h2 class="text-center">List of Adm1 (zone)</h2>
+            <div class="input-group mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by name">
+            </div>
             
             <table class="table table-striped table-bordered bg-white">
                 <thead>
@@ -78,6 +81,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div id="noResultsMessage" style="display: none; margin-top: 10px;">
+                No matching results
+            </div>
         </div>
     </div>
 </div>
@@ -100,6 +106,40 @@
         </div>
     </div>
 </div>
+<script>
+    // Función para filtrar la tabla por cualquier cosa mientras escribes
+    document.getElementById("searchInput").addEventListener("input", function() {
+        var input, filter, table, tr, td, i, j, txtValue, hasMatch;
+        input = this;
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".table");
+        tr = table.getElementsByTagName("tr");
+        hasMatch = false; // Variable para rastrear si hay coincidencias
+
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "none"; // Oculta todas las filas inicialmente
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Muestra la fila si se encuentra coincidencia
+                        hasMatch = true; // Hay coincidencia
+                        break; // Rompe el bucle interior para evitar mostrar la fila múltiples veces
+                    }
+                }
+            }
+        }
+
+        // Muestra el mensaje "No hay coincidencias" si no se encontraron coincidencias
+        var noResultsMessage = document.getElementById("noResultsMessage");
+        if (!hasMatch) {
+            noResultsMessage.style.display = "block";
+        } else {
+            noResultsMessage.style.display = "none";
+        }
+    });
+</script>
 {% endfor %}
 
 {% endblock %}
