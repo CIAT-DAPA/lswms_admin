@@ -7,9 +7,9 @@ wpcontent_bp = Blueprint('wpcontent', __name__)
 
 @wpcontent_bp.route('/wpcontent')
 def show_wpcontent():
-    wpcontent = Wpcontent.objects()
-    waterpoint= Waterpoint.objects()
-    typecontent= Typecontent.objects()
+    wpcontent = Wpcontent.objects(content__trace__enabled=True)
+    waterpoint= Waterpoint.objects(trace__enabled=True)
+    typecontent= Typecontent.objects(trace__enabled=True)
     options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
     positions=['left','right']
     languages = [
@@ -20,6 +20,23 @@ def show_wpcontent():
 
     
     return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions,languages=languages)
+@wpcontent_bp.route('/addwpcontent')
+def addd_wpcontent():
+    wpcontent = Wpcontent.objects(content__trace__enabled=True)
+    waterpoint= Waterpoint.objects(trace__enabled=True)
+    typecontent= Typecontent.objects(trace__enabled=True)
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
+    positions=['left','right']
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
+
+    
+    return render_template('addWpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions,languages=languages)
+
+
 @wpcontent_bp.route('/wpcontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
@@ -110,8 +127,13 @@ def delete_wpcontent(wpcontent_id):
     wpcontent = Wpcontent.objects(id=wpcontent_id).first()
 
     if wpcontent:
-        wpcontent.delete()
-        flash("wpcontent deleted successfully")
+        if 'content' in wpcontent and 'trace' in wpcontent.content:
+            # Utiliza update para modificar el documento en lugar de cargarlo completo
+            Wpcontent.objects(id=wpcontent_id).update(set__content__trace__enabled=False)
+
+            flash("wpcontent deleted successfully")
+        else:
+            flash("Content or Trace not found in wpcontent")
     else:
         flash("wpcontent not found")
 

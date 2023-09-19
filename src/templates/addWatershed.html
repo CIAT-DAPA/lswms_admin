@@ -5,25 +5,25 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title text-center">Add Adm2</h2>
-                    <p class="text-center">Fill in the fields, if you don't find the adm1 in the list, you can create it <a href="/addadm1">here</a></p>
-                    <form method="POST" action="/adm2/add">
+                    <h2 class="card-title text-center">Add Watershed</h2>
+                    <p class="text-center">Fill in the fields, if you don't find the adm3 in the list, you can create it <a href="/addadm3">here</a></p>
+                    <form method="POST" action="/watershed/add">
                         <div class="mb-3">
-                            <label for="adm1" class="form-label">Select Adm1:</label>
-                            <select class="form-select" id="adm1" name="adm1" required>
-                                <option value="" disabled selected>Select Adm1</option>
-                                {% for adm in adm1 %}
+                            <label for="adm3" class="form-label">Select Adm3:</label>
+                            <select class="form-select" id="adm3" name="adm3" required>
+                                <option value="" disabled selected>Select Adm3</option>
+                                {% for adm in adm3 %}
                                     <option value="{{ adm.id }}">{{ adm.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name Adm2:</label>
+                            <label for="name" class="form-label">Name Watershed:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="ext_id" class="form-label">Ext_id:</label>
-                            <input type="number" class="form-control" id="ext_id" name="ext_id" required>
+                            <label for="ext_id" class="form-label">Area:</label>
+                            <input type="number" class="form-control" id="area" name="area" step="any" required>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary save-button">

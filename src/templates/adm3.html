@@ -1,87 +1,39 @@
 {% extends 'layout.html' %}
 {% block body %}
-<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to Kebeles.</h5>
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to kebeles.</h5>
 
-
-<!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <img src="..." class="rounded me-2" alt="...">
-      <strong class="me-auto">Bootstrap</strong>
-      <small>11 mins ago</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Hello, world! This is a toast message.
-    </div>
-  </div>
-</div> -->
 <div class="container-fluid mt-5">
-
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-   
-            {% for message in messages %}
-<div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
-    <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-        {{ message }}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+        <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            {{ message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-            {% endfor %} 
     
+    {% endfor %} 
     {% endif %}
     {% endwith %}
 
     <div class="row">
         <!-- lef conainer to add adm1-->
-        <div class="col-md-6">
-            <h2 class="card-title text-center">Add Adm3</h2>
-
-
-            <div class="card">
-                <div class="card-body">
-            <p class="">Fill in the fields, if you don't find the adm2 in the list, you can create it <a href="/adm2">here</a> </p>
-
-                    <form method="POST" action="/adm3/add">
-                        <div class="mb-3">
-                            <label for="adm1" class="form-label">Select Adm2:</label>
-                            <select class="form-select" id="adm2" name="adm2" required>
-                                <option value="" disabled selected>Select Adm2</option>
-                                {% for adm in adm2 %}
-                                    <option value="{{ adm.id }}">{{ adm.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name Adm3:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ext_id" class="form-label">Ext_id:</label>
-                            <input type="number" class="form-control" id="ext_id" name="ext_id" required>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit "class="btn btn-primary save-button">
-                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
-                            </button>
-                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- right table to edit adm     -->
-        <div class="col-md-6">
-            <h2 class="text-center">List of Adm3 (Kebele)</h2>
+        <div class="row">
+            <div class="container-md d-flex justify-content-between align-items-center">
+                <h2>List of Adm3 (kebele)</h2>
+                <a href="/addadm3" class="btn btn-primary">Add Adm3 <i class="fas fa-plus"></i></a>
+            </div>
             
-            <table class="table table-striped table-bordered bg-white">
+            <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Ext Id</th>
+                        <th>Adm2</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -91,8 +43,15 @@
                         <td>{{ adm.name }}</td>
                         <td>{{ adm.ext_id }}</td>
                         <td>
+                            {% for a2 in adm2 %}
+                            {% if a2.id == adm.adm2.id %}
+                            {{ a2.name }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
                             <div class="text-center">
-                                <a href="/editadm3/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="/editadm3/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
                                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
                             </div>
                             
@@ -123,9 +82,7 @@
             </div>
         </div>
     </div>
-    
 </div>
 {% endfor %}
 
 {% endblock %}
-

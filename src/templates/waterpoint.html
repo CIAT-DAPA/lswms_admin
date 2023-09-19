@@ -1,95 +1,34 @@
 {% extends 'layout.html' %}
 {% block body %}
-<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to WaterPoints.</h5>
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to waterpoints</h5>
 
-
-<!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <img src="..." class="rounded me-2" alt="...">
-      <strong class="me-auto">Bootstrap</strong>
-      <small>11 mins ago</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Hello, world! This is a toast message.
-    </div>
-  </div>
-</div> -->
-<div class="container-fluid mt-5 ">
-
+<div class="container-fluid mt-5">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-   
-            {% for message in messages %}
-<div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
-    <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-        {{ message }}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+        <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            {{ message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-            {% endfor %} 
     
+    {% endfor %} 
     {% endif %}
     {% endwith %}
 
     <div class="row">
         <!-- lef conainer to add adm1-->
-        <div class="col-md-6">
-            <h2 class="card-title text-center">Add Waterpoint</h2>
-
-
-            <div class="card">
-                <div class="card-body">
-            <p class="">Fill in the fields, if you don't find the watershed in the list, you can create it <a href="/watershed">here</a> </p>
-
-                    <form method="POST" action="/waterpoint/add">
-                        <div class="mb-3">
-                            <label for="waterpoint" class="form-label">Select Watershed:</label>
-                            <select class="form-select" id="watershed" name="watershed" required>
-                                <option value="" disabled selected>Select Watershed</option>
-                                {% for wsh in watershed %}
-                                    <option value="{{ wsh.id }}">{{ wsh.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name Waterpoint:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ext_id" class="form-label">Latitude:</label>
-                            <input type="number" class="form-control" id="lat" name="lat" step="any" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ext_id" class="form-label">Longitude:</label>
-                            <input type="number" class="form-control" id="lon" name="lon" step="any" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ext_id" class="form-label">Area:</label>
-                            <input type="number" class="form-control" id="area" name="area" step="any" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ext_id" class="form-label">Ext_id:</label>
-                            <input type="number" class="form-control" id="ext_id" name="ext_id" required>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit "class="btn btn-primary save-button">
-                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
-                            </button>
-                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- right table to edit adm     -->
-        <div class="col-md-6">
-            <h2 class="text-center">List of WaterPoints </h2>
+        <div class="row">
+            <div class="container-md d-flex justify-content-between align-items-center">
+                <h2>List of Waterpoints</h2>
+                <a href="/addwaterpoint" class="btn btn-primary">Add Waterpoint <i class="fas fa-plus"></i></a>
+            </div>
             
-            <table class="table table-striped table-bordered bg-white">
+            <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -97,6 +36,7 @@
                         <th>Latitude</th>
                         <th>Longitude</th>
                         <th>Ext ID</th>
+                        <th>Watershed</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -109,6 +49,13 @@
                         <td>{{ wtp.lon }}</td> 
                         <td>{{ wtp.ext_id }}</td> 
                         <td>
+                            {% for wsh in watershed %}
+                            {% if wsh.id == wtp.watershed.id %}
+                            {{ wsh.name }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
                             <div class="text-center">
                                 <a href="/editwaterpoint/{{ wtp.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
                                 <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wtp.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
@@ -119,12 +66,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-            
         </div>
     </div>
 </div>
 
-{% for wtp in waterpoint %}
+{% for  wtp in waterpoint %}
 <div class="modal fade" id="deleteModal-{{ wtp.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wtp.id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -141,10 +87,7 @@
             </div>
         </div>
     </div>
-    
 </div>
-
 {% endfor %}
 
 {% endblock %}
-

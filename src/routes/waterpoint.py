@@ -8,13 +8,19 @@ from datetime import datetime
 waterpoint_bp = Blueprint('waterpoint', __name__)
 
 @waterpoint_bp.route('/waterpoint')
-def show_watershed():
-    waterpoint = Waterpoint.objects()
-    watershed=Watershed.objects()
+def show_waterpoint():
+    waterpoint = Waterpoint.objects(trace__enabled=True)
+    watershed=Watershed.objects(trace__enabled=True)
     return render_template('waterpoint.html', waterpoint=waterpoint, watershed=watershed)
 
+@waterpoint_bp.route('/addwaterpoint')
+def addd_waterpoint():
+    waterpoint = Waterpoint.objects(trace__enabled=True)
+    watershed=Watershed.objects(trace__enabled=True)
+    return render_template('addWaterpoint.html', waterpoint=waterpoint, watershed=watershed)
+
 @waterpoint_bp.route('/waterpoint/add', methods=['POST'])
-def add_wateshed():
+def add_waterpoint():
     name = request.form['name']
     lat = request.form['lat']
     lon = request.form['lon']
@@ -51,11 +57,14 @@ def edit_waterpoint(waterpoint_id):
     return render_template('edit_waterpoint.html', waterpoint=waterpoint,watershed=watershed)
 
 @waterpoint_bp.route('/deletewaterpoint/<string:waterpoint_id>')
-def delete_watershed(waterpoint_id):
+def delete_waterpoint(waterpoint_id):
     waterpoint = Waterpoint.objects(id=waterpoint_id).first()
 
     if waterpoint:
-        waterpoint.delete()
+        trace = waterpoint.trace
+
+        trace['enabled'] = False
+        waterpoint.update(trace=trace)
         flash("Waterpoint deleted successfully")
     else:
         flash("Waterpoint not found")
