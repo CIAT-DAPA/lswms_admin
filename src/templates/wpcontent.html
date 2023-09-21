@@ -2,7 +2,7 @@
 {% block body %}
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to kebeles.</h5>
 
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5" style="height: 71vh;">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -31,8 +31,10 @@
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Category</th>
                         <th>Type</th>
+                        <th>Waterpoint</th>
+                        <th>Date</th>
                         <th>keys</th>
                         <th>Values</th>
                         <th>Actions</th>
@@ -41,8 +43,26 @@
                 <tbody>
                     {% for wpc in wpcontent %}
                         <tr>
-                            <td>{{ wpc.content.title }}</td>
+                            <td>
+                                {% for ct in typecontent %}
+                                {% if ct.id == wpc.type.id %}
+                                {{ ct.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            
                             <td>{{ wpc.content.type }}</td>
+                            <td>
+                                {% for wp in waterpoint %}
+                                {% if wp.id == wpc.waterpoint.id %}
+                                {{ wp.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ wpc.content['trace']['created'].strftime("%Y-%m-%d") }}</td>
+
+
+
                             <td>
                                 {% set keys = [] %}
                                 {% for value in wpc.content['values'] %}

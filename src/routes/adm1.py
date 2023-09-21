@@ -3,9 +3,9 @@ from ormWP import Adm1
 from datetime import datetime
 adm1_bp = Blueprint('adm1', __name__)
 
-@adm1_bp.route('/')
+@adm1_bp.route('/adm1')
 def show_adm1():
-    adm1 = Adm1.objects(trace__enabled=True)
+    adm1 = Adm1.objects()
     return render_template('adm1.html', adm1=adm1)
 
 @adm1_bp.route('/addadm1')
@@ -21,7 +21,7 @@ def add_adm1():
     adm1 = Adm1(name=name, ext_id=ext_id,trace=traced)
     adm1.save()
     flash("Adm1 added succesfully")
-    return redirect('/')
+    return redirect('/adm1')
 
 @adm1_bp.route('/edit/<string:adm1_id>', methods=['GET', 'POST'])
 def edit_adm1(adm1_id):
@@ -36,7 +36,7 @@ def edit_adm1(adm1_id):
         adm1.update(name=nombre, ext_id=ext_id, trace=trace)
 
         flash("Adm1 updated successfully")
-        return redirect('/')
+        return redirect('/adm1')
 
     return render_template('edit_adm1.html', adm1=adm1)
 
@@ -53,6 +53,21 @@ def delete_adm1(adm1_id):
     else:
         flash("Adm1 not found")
 
-    return redirect('/')
+    return redirect('/adm1')
+
+@adm1_bp.route('/reset/<string:adm1_id>')
+def reset_adm1(adm1_id):
+    adm1 = Adm1.objects(id=adm1_id).first()
+
+    if adm1:
+        trace = adm1.trace
+
+        trace['enabled'] = True
+        adm1.update(trace=trace)
+        flash("Adm1 recover successfully")
+    else:
+        flash("Adm1 not found")
+
+    return redirect('/adm1')
 
 

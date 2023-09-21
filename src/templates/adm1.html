@@ -3,7 +3,7 @@
 
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 1 administrative divisions, related to zones.</h5>
 
-<div class="container-fluid  mt-5">
+<div class="container-fluid  mt-5" style="height: 71vh;" >
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -34,6 +34,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Ext Id</th>
+                        <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -42,11 +43,17 @@
                     <tr>
                         <td>{{ adm.name }}</td>
                         <td>{{ adm.ext_id }}</td>
+                        <td>{{ "Enabled" if adm.trace.enabled else "Disabled" }}</td>
                         <td>
                             <div class="text-center">
-                                <a href="/edit/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% if adm.trace.enabled %}
+                                    <a href="/edit/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% else %}
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ adm.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                {% endif %}
                             </div>
+                            
                             
                             
                         </td>
@@ -71,7 +78,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this Zone?
+                Are you sure you want to delete "{{ adm.name }}"?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -82,6 +89,25 @@
 </div>
 
 
+{% endfor %}
+{% for adm in adm1 %}
+<div class="modal fade" id="reset-{{ adm.id }}" tabindex="-1" aria-labelledby="reset-{{ adm.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reset-{{ adm.id }}">Confirm Recover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to recover "{{ adm.name }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/reset/{{ adm.id }}" class="btn btn-success">Recover</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
 
 {% endblock %}

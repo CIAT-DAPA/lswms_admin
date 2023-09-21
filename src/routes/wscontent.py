@@ -7,9 +7,9 @@ wscontent_bp = Blueprint('wscontent', __name__)
 
 @wscontent_bp.route('/wscontent')
 def show_wscontent():
-    wscontent = Wscontent.objects()
-    watershed= Watershed.objects()
-    typecontent= Typecontent.objects()
+    wscontent = Wscontent.objects(content__trace__enabled=True)
+    watershed= Watershed.objects(trace__enabled=True)
+    typecontent= Typecontent.objects(trace__enabled=True)
     options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
 
     positions=['left','right']
@@ -22,6 +22,25 @@ def show_wscontent():
     
 
     return render_template('wscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
+
+@wscontent_bp.route('/addwscontent')
+def addd_wscontent():
+    wscontent = Wscontent.objects(content__trace__enabled=True)
+    watershed= Watershed.objects(trace__enabled=True)
+    typecontent= Typecontent.objects(trace__enabled=True)
+    options = ['icon-x', 'icon-y', 'simple-list','complex-list', 'text']
+
+    positions=['left','right']
+    languages = [
+        {'label': 'Amharic', 'value': 'am'},
+        {'label': 'Afaan Oromo', 'value': 'or'},
+        {'label': 'English', 'value': 'en'},
+    ]
+
+    
+
+    return render_template('addWscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
+
 @wscontent_bp.route('/wscontent/add', methods=['GET', 'POST'])
 def add_wpcontent():
     if request.method == 'POST':
@@ -111,8 +130,13 @@ def delete_wpcontent(wscontent_id):
     wscontent = Wscontent.objects(id=wscontent_id).first()
 
     if wscontent:
-        wscontent.delete()
-        flash("wscontent deleted successfully")
+        if 'content' in wscontent and 'trace' in wscontent.content:
+            # Utiliza update para modificar el documento en lugar de cargarlo completo
+            Wscontent.objects(id=wscontent_id).update(set__content__trace__enabled=False)
+
+            flash("wscontent deleted successfully")
+        else:
+            flash("Content or Trace not found in wscontent")
     else:
         flash("wscontent not found")
 
