@@ -6,7 +6,7 @@ typecontent_bp = Blueprint('typecontent', __name__)
 
 @typecontent_bp.route('/typecontent')
 def show_typecontent():
-    typecontent = Typecontent.objects(trace__enabled=True)
+    typecontent = Typecontent.objects()
     return render_template('typecontent.html', typecontent=typecontent)
 
 @typecontent_bp.route('/addtypecontent')
@@ -57,4 +57,17 @@ def delete_typecontent(typecontent_id):
 
     return redirect('/typecontent')
 
+@typecontent_bp.route('/resetypecontent/<string:typecontent_id>')
+def reset_typecontent(typecontent_id):
+    typecontent = Typecontent.objects(id=typecontent_id).first()
 
+    if typecontent:
+        trace = typecontent.trace
+
+        trace['enabled'] = True
+        typecontent.update(trace=trace)
+        flash("Category recover successfully")
+    else:
+        flash("Category not found")
+
+    return redirect('/typecontent')

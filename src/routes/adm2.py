@@ -6,7 +6,7 @@ adm2_bp = Blueprint('adm2', __name__)
 
 @adm2_bp.route('/adm2')
 def show_adm2():
-    adm2 = Adm2.objects(trace__enabled=True)
+    adm2 = Adm2.objects()
     adm1 = Adm1.objects(trace__enabled=True)
 
     return render_template('adm2.html', adm2=adm2, adm1=adm1)
@@ -63,5 +63,18 @@ def delete_adm2(adm2_id):
         flash("Adm2 not found")
 
     return redirect('/adm2')
+@adm2_bp.route('/resetadm2/<string:adm2_id>')
+def reset_adm2(adm2_id):
+    adm2 = Adm2.objects(id=adm2_id).first()
 
+    if adm2:
+        trace = adm2.trace
+
+        trace['enabled'] = True
+        adm2.update(trace=trace)
+        flash("Adm2 recover successfully")
+    else:
+        flash("Adm2 not found")
+
+    return redirect('/adm2')
 

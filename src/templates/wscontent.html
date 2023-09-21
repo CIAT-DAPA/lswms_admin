@@ -34,6 +34,8 @@
                         <th>Category</th>
                         <th>Type</th>
                         <th>Watershed</th>
+                        <th>Date</th>
+                        <th>Status</th>
                         <th>keys</th>
                         <th>Values</th>
                         <th>Actions</th>
@@ -58,6 +60,8 @@
                                 {% endif %}
                                 {% endfor %}
                             </td>
+                            <td>{{ wsc.content['trace']['created'].strftime("%Y-%m-%d") }}</td>
+                            <td>{{ "Enabled" if wsc.content['trace']['enabled'] else "Disabled" }}</td>
                             <td>
                                 {% set keys = [] %}
                                 {% for value in wsc.content['values'] %}
@@ -77,8 +81,14 @@
                                 {{ values|join(', ') }}
                             </td>
                             <td>
-                                <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                <div class="text-center">
+                                    {% if wsc.content['trace']['enabled'] %}
+                                        <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                    {% else %}
+                                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ wsc.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
@@ -106,6 +116,25 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reset-{{ wsc.id }}" tabindex="-1" aria-labelledby="reset-{{ wsc.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reset-{{ wsc.id }}">Confirm Recover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to recover this content?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/resetwscontent/{{ wsc.id }}" class="btn btn-success">Recover</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function addKeyValueField() {
         var valuesContainer = document.getElementById('values-container');
@@ -212,6 +241,9 @@
     }
    
 </style>
+
+    
+</script>
 
 {% endfor %}
 

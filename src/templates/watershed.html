@@ -2,7 +2,7 @@
 {% block body %}
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to watershed administrative divisions</h5>
 
-<div class="container-fluid mt-5" style="height: 71vh;">
+<div class="container-fluid " style="height: 80vh;" >
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -18,10 +18,7 @@
     {% endwith %}
 
     <div class="row">
-        <!-- lef conainer to add adm1-->
         
-
-        <!-- right table to edit adm     -->
         <div class="row">
             <div class="container-md d-flex justify-content-between align-items-center">
                 <h2>List of Watershed</h2>
@@ -33,6 +30,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Area</th>
+                        <th>Status</th>
                         <th>Adm3</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -42,6 +40,8 @@
                     <tr>
                         <td>{{ wts.name }}</td>
                         <td>{{ wts.area }}</td>
+                        <td>{{ "Enabled" if wts.trace.enabled else "Disabled" }}</td>
+
                         <td>
                             {% for a3 in adm3 %}
                             {% if a3.id == wts.adm3.id %}
@@ -51,8 +51,12 @@
                         </td>
                         <td>
                             <div class="text-center">
-                                <a href="/editwatershed/{{ wts.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wts.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% if wts.trace.enabled %}
+                                    <a href="/editwatershed/{{ wts.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wts.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% else %}
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ wts.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                {% endif %}
                             </div>
                             
                             
@@ -66,23 +70,42 @@
 </div>
 
 {% for wts in watershed %}
-<div class="modal fade" id="deleteModal-{{ wts.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wts.id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel-{{ wts.id }}">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this Watershed?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="/deletewatershed/{{ wts.id }}" class="btn btn-danger">Delete</a>
+    <div class="modal fade" id="deleteModal-{{ wts.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wts.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ wts.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ wts.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/deletewatershed/{{ wts.id }}" class="btn btn-danger">Delete</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="reset-{{ wts.id }}" tabindex="-1" aria-labelledby="reset-{{ wts.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ wts.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover "{{ wts.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/resetwatershed/{{ wts.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endfor %}
 
 {% endblock %}

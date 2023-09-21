@@ -2,7 +2,7 @@
 {% block body %}
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to kebeles.</h5>
 
-<div class="container-fluid mt-5" style="height: 71vh;">
+<div class="container-fluid mt-5" style="height: 100vh;">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -35,6 +35,7 @@
                         <th>Type</th>
                         <th>Waterpoint</th>
                         <th>Date</th>
+                        <th>Status</th>
                         <th>keys</th>
                         <th>Values</th>
                         <th>Actions</th>
@@ -60,6 +61,8 @@
                                 {% endfor %}
                             </td>
                             <td>{{ wpc.content['trace']['created'].strftime("%Y-%m-%d") }}</td>
+                            <td>{{ "Enabled" if wpc.content['trace']['enabled'] else "Disabled" }}</td>
+
 
 
 
@@ -82,8 +85,14 @@
                                 {{ values|join(', ') }}
                             </td>
                             <td>
-                                <a href="/editwpcontent/{{ wpc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wpc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                <div class="text-center">
+                                    {% if wpc.content['trace']['enabled'] %}
+                                        <a href="/editwpcontent/{{ wpc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wpc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                    {% else %}
+                                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ wpc.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
@@ -93,24 +102,44 @@
     </div>
 </div>
 
+
 {% for wpc in wpcontent %}
-<div class="modal fade" id="deleteModal-{{ wpc.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wpc.id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel-{{ wpc.id }}">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this content?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="/deletewpcontent/{{ wpc.id }}" class="btn btn-danger">Delete</a>
+    <div class="modal fade" id="deleteModal-{{ wpc.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ wpc.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ wpc.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this content?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/deletewpcontent/{{ wpc.id }}" class="btn btn-danger">Delete</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="reset-{{ wpc.id }}" tabindex="-1" aria-labelledby="reset-{{ wpc.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ wpc.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover this content?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/resetwpcontent/{{ wpc.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
     function addKeyValueField() {
         var valuesContainer = document.getElementById('values-container');

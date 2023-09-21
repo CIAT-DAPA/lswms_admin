@@ -3,7 +3,7 @@
 
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 1 administrative divisions, related to zones.</h5>
 
-<div class="container-fluid  mt-5" style="height: 71vh;" >
+<div class="container-fluid  mt-5" style="height: 100vh;" >
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -70,44 +70,42 @@
 </div>
 
 {% for adm in adm1 %}
-<div class="modal fade" id="deleteModal-{{ adm.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ adm.id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel-{{ adm.id }}">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete "{{ adm.name }}"?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="/delete/{{ adm.id }}" class="btn btn-danger">Delete</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-{% endfor %}
-{% for adm in adm1 %}
-<div class="modal fade" id="reset-{{ adm.id }}" tabindex="-1" aria-labelledby="reset-{{ adm.id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reset-{{ adm.id }}">Confirm Recover</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to recover "{{ adm.name }}"?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="/reset/{{ adm.id }}" class="btn btn-success">Recover</a>
+    <div class="modal fade" id="deleteModal-{{ adm.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ adm.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ adm.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ adm.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/delete/{{ adm.id }}" class="btn btn-danger">Delete</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="reset-{{ adm.id }}" tabindex="-1" aria-labelledby="reset-{{ adm.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ adm.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover "{{ adm.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/reset/{{ adm.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endfor %}
+
 
 {% endblock %}

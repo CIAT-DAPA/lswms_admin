@@ -2,7 +2,7 @@
 {% block body %}
 <h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 2 administrative divisions, related to woreda.</h5>
 
-<div class="container-fluid mt-5" style="height: 71vh;" >
+<div class="container-fluid mt-5" style="height: 80vh;" >
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -33,6 +33,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Ext Id</th>
+                        <th>Status</th>
                         <th>Adm1</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -42,6 +43,8 @@
                     <tr>
                         <td>{{ adm.name }}</td>
                         <td>{{ adm.ext_id }}</td>
+                        <td>{{ "Enabled" if adm.trace.enabled else "Disabled" }}</td>
+
                         <td>
                             {% for a1 in adm1 %}
                             {% if a1.id == adm.adm1.id %}
@@ -51,9 +54,14 @@
                         </td>
                         <td>
                             <div class="text-center">
-                                <a href="/editadm2/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% if adm.trace.enabled %}
+                                    <a href="/editadm2/{{ adm.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ adm.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% else %}
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ adm.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                {% endif %}
                             </div>
+                            
                             
                             
                         </td>
@@ -66,23 +74,45 @@
 </div>
 
 {% for adm in adm2 %}
-<div class="modal fade" id="deleteModal-{{ adm.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ adm.id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel-{{ adm.id }}">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this woreda?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="/deleteadm2/{{ adm.id }}" class="btn btn-danger">Delete</a>
+    <div class="modal fade" id="deleteModal-{{ adm.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ adm.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ adm.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ adm.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/deleteadm2/{{ adm.id }}" class="btn btn-danger">Delete</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="reset-{{ adm.id }}" tabindex="-1" aria-labelledby="reset-{{ adm.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ adm.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover "{{ adm.name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/resetadm2/{{ adm.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endfor %}
 
+
 {% endblock %}
+
+
+

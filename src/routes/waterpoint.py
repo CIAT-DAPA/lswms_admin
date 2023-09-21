@@ -9,7 +9,7 @@ waterpoint_bp = Blueprint('waterpoint', __name__)
 
 @waterpoint_bp.route('/waterpoint')
 def show_waterpoint():
-    waterpoint = Waterpoint.objects(trace__enabled=True)
+    waterpoint = Waterpoint.objects()
     watershed=Watershed.objects(trace__enabled=True)
     return render_template('waterpoint.html', waterpoint=waterpoint, watershed=watershed)
 
@@ -66,6 +66,21 @@ def delete_waterpoint(waterpoint_id):
         trace['enabled'] = False
         waterpoint.update(trace=trace)
         flash("Waterpoint deleted successfully")
+    else:
+        flash("Waterpoint not found")
+
+    return redirect('/waterpoint')
+
+@waterpoint_bp.route('/resetwaterpoint/<string:waterpoint_id>')
+def waterpoint(waterpoint_id):
+    waterpoint = Waterpoint.objects(id=waterpoint_id).first()
+
+    if waterpoint:
+        trace = waterpoint.trace
+
+        trace['enabled'] = True
+        waterpoint.update(trace=trace)
+        flash("Waterpoint recover successfully")
     else:
         flash("Waterpoint not found")
 
