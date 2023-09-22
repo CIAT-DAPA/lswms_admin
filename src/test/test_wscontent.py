@@ -32,12 +32,12 @@ class TestWscontentBlueprint(unittest.TestCase):
     def test_add_wscontent(self):
         data = {
     'title': 'Título de ejemplo',
-    'typecontent': '64d1bf27e68bf4ca8e6a3bd3',  # ID del tipo de contenido
+    'typecontent': '64d1bf27e68bf4ca8e6a3bd3',  
     'type': 'icon-x',
     'position': 'right',
-    'watershed': '64d1bf04650e2171091fa200',  # ID del punto de agua
-    'keys[]': ['clave1', 'clave2'],  # Lista de claves
-    'values[]': ['valor1', 'valor2'],  # Lista de valores
+    'watershed': '64d1bf04650e2171091fa200',  
+    'keys[]': ['clave1', 'clave2'],  
+    'values[]': ['valor1', 'valor2'],  
 }
 
         try:
@@ -46,18 +46,6 @@ class TestWscontentBlueprint(unittest.TestCase):
        
         except Exception as e:
             print(str(e))  
-
-
-
-"""     def test_delete_wscontent(self):
-        # Simulate existing data in the in-memory database
-        traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
-        wscontent = Wscontent(watershed='64d1bf04650e2171091fa200', type='64d1bf27e68bf4ca8e6a3bd3',content={"trace":traced})
-        wscontent.save()
-
-        response = self.client.get(f'/deletewscontent/{wscontent.id}', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
-        # Verify if the data is deleted correctly from the in-memory database (if applicable) """
 
 if __name__ == '__main__':
     unittest.main()
