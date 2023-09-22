@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center align-items-center vh-70">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-5">
                 
                 <div class="card-body">
                     <h2 class="card-title text-center">Add Waterpoint Content</h2>
@@ -24,15 +24,6 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="adm1" class="form-label">Select Caregory:</label>
-                            <select class="form-select" id="typecontent" name="typecontent" required>
-                                <option value="" disabled selected>Select category</option>
-                                {% for tpc in typecontent %}
-                                    <option value="{{ tpc.id }}">{{ tpc.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="adm1" class="form-label">Select Language:</label>
                             <select class="form-select" id="language" name="language" required>
                                 <option value="" disabled selected>Select  language</option>
@@ -42,7 +33,21 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="type" class="form-label">Select a type :</label>
+                            <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select the category of content you want to save, these categories refer to certain values ​​such as livehood, Gender, agriculture among others.">
+                                <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+                            </span>Select Category :</label>
+                            <select class="form-select" id="typecontent" name="typecontent" required>
+                                <option value="" disabled selected>Select category</option>
+                                {% for tpc in typecontent %}
+                                    <option value="{{ tpc.id }}">{{ tpc.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select the type of content you want to add, this way it will be rendered in the web application.">
+                                <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+                            </span>Select a type :</label>
                             <select class="form-select" id="type" name="type" required>
                                 <option value="" disabled selected>Select type</option>
 
@@ -52,7 +57,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="type" class="form-label">Select position:</label>
+                            <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select where on the screen you want the content to be rendered, on the left or right of the screen.  ">
+                                <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+                            </span>Select sosition :</label>
                             <select class="form-select" id="position" name="position" required>
                                 <option value="" disabled selected>Select position</option>
 
