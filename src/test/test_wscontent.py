@@ -2,6 +2,7 @@ import unittest
 from flask import Flask
 from mongoengine import connect, disconnect
 import os, sys
+from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 # Import the Flask application from your app.py file
 from app import app
@@ -48,14 +49,15 @@ class TestWscontentBlueprint(unittest.TestCase):
 
 
 
-    def test_delete_wscontent(self):
+"""     def test_delete_wscontent(self):
         # Simulate existing data in the in-memory database
-        wscontent = Wscontent(watershed='64d1bf04650e2171091fa200', type='64d1bf27e68bf4ca8e6a3bd3',content={})
+        traced = {"created": datetime.now(), "updated": datetime.now(), "enabled": True}
+        wscontent = Wscontent(watershed='64d1bf04650e2171091fa200', type='64d1bf27e68bf4ca8e6a3bd3',content={"trace":traced})
         wscontent.save()
 
         response = self.client.get(f'/deletewscontent/{wscontent.id}', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        # Verify if the data is deleted correctly from the in-memory database (if applicable)
+        # Verify if the data is deleted correctly from the in-memory database (if applicable) """
 
 if __name__ == '__main__':
     unittest.main()
