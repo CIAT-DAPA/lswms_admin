@@ -1,11 +1,8 @@
 {% extends 'layout.html' %}
 {% block body %}
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Level 3 administrative divisions, related to kebeles.</h5>
 
-<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to Watershed content. If you cannot find the watershed, you can <a href="/watershed">create it here</a>. If you cannot find the category, you can <a href="/typecontent">create it here</a>.</h5>
-
-
-<div class="container-fluid mt-5">
-
+<div class="container-fluid mt-5" style="height: 90vh;">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -21,139 +18,82 @@
     {% endwith %}
 
     <div class="row">
-
         <!-- lef conainer to add adm1-->
-        <div class="col-md-6 sticky-container">
-            <h2 class="card-title text-center">Add Watershed content</h2>
         
-            <div class="card">
-                <div class="card-body">
-                    <p class="">Fill in the fields </p>
-        
-                    <form method="POST" action="/wscontent/add">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">title:</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="adm1" class="form-label">Select watershed:</label>
-                            <select class="form-select" id="watershed" name="watershed" required>
-                                <option value="" disabled selected>Select  watershed</option>
-                                {% for ws in watershed %}
-                                    <option value="{{ ws.id }}">{{ ws.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="adm1" class="form-label">Select Caregory:</label>
-                            <select class="form-select" id="typecontent" name="typecontent" required>
-                                <option value="" disabled selected>Select category</option>
-                                {% for tpc in typecontent %}
-                                    <option value="{{ tpc.id }}">{{ tpc.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="adm1" class="form-label">Select Language:</label>
-                            <select class="form-select" id="language" name="language" required>
-                                <option value="" disabled selected>Select  language</option>
-                                {% for lg in languages %}
-                                    <option value="{{ lg.value }}">{{ lg.label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">Select a type :</label>
-                            <select class="form-select" id="type" name="type" required>
-                                <option value="" disabled selected>Select type</option>
-
-                                {% for option in options %}
-                                    <option value="{{ option }}">{{ option }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">Select position:</label>
-                            <select class="form-select" id="position" name="position" required>
-                                <option value="" disabled selected>Select position</option>
-
-                                {% for pos in positions %}
-                                    <option value="{{ pos }}">{{ pos }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                       
-                        <div class="mb-3">
-                            <h2 class="text-center">Values</h2>
-                        </div>
-                        <div id="values-container">
-                            <!-- Dynamic Key-Value Fields Will Be Added Here -->
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success add-button add" title="Add Field" onclick="addKeyValueField()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit "class="btn btn-primary save-button">
-                                Save <i class="fas fa-save"></i>  <!-- Icono de "save" -->
-                            </button>
-                            <!-- <button type="submit" class="btn  btn-primary float-center">Add wpcontent</button> -->
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <!-- right table to edit adm     -->
-        <div class="col-md-6">
-            <h2 class="text-center">List Contents</h2>
+        <div class="row">
+            <div class="container-md d-flex justify-content-between align-items-center">
+                <h2>List Watershed contents</h2>
+                <a href="/addwscontent" class="btn btn-primary">Add Content <i class="fas fa-plus"></i></a>
+            </div>
             
-          
-            {% for wsc in wscontent %}
-            <table class="table table-striped table-bordered bg-white">
+            <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Category</th>
                         <th>Type</th>
+                        <th>Watershed</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>keys</th>
+                        <th>Values</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ wsc.content.title }}</td>
-                        <td>{{ wsc.content.type }}</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><strong>Key</strong></td>
-                        <td><strong>Value</strong></td>
-                        <td></td> <!-- Mantén esta celda vacía para la alineación -->
-                    </tr>
-                    {% for value in wsc.content['values'] %}
-                    {% for key, val in value.items() %}
-                    <tr>
-                        <td>{{ key }}</td>
-                        <td>{{ val }}</td>
-                        <td>
-                            <div class="text-center">
-                                <!-- Puedes agregar acciones específicas para los valores de "values" aquí si es necesario -->
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
+                    {% for wsc in wscontent %}
+                        <tr>
+                            <td>
+                                {% for ct in typecontent %}
+                                {% if ct.id == wsc.type.id %}
+                                {{ ct.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            
+                            <td>{{ wsc.content.type }}</td>
+                            <td>
+                                {% for ws in watershed %}
+                                {% if ws.id == wsc.watershed.id %}
+                                {{ ws.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ wsc.content['trace']['created'].strftime("%Y-%m-%d") }}</td>
+                            <td>{{ "Enabled" if wsc.content['trace']['enabled'] else "Disabled" }}</td>
+                            <td>
+                                {% set keys = [] %}
+                                {% for value in wsc.content['values'] %}
+                                    {% for key, val in value.items() %}
+                                        {% set _ = keys.append(key) %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {{ keys|join(', ') }}
+                            </td>
+                            <td>
+                                {% set values = [] %}
+                                {% for value in wsc.content['values'] %}
+                                    {% for key, val in value.items() %}
+                                        {% set _ = values.append(val) %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {{ values|join(', ') }}
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    {% if wsc.content['trace']['enabled'] %}
+                                        <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                    {% else %}
+                                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ wsc.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
-           
-               
-                <div class="text-center mb-2">
-                    <a href="/editwscontent/{{ wsc.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ wsc.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
-                </div>
-                
-           
-            {% endfor %}
-            
         </div>
     </div>
 </div>
@@ -176,6 +116,25 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reset-{{ wsc.id }}" tabindex="-1" aria-labelledby="reset-{{ wsc.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reset-{{ wsc.id }}">Confirm Recover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to recover this content?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/resetwscontent/{{ wsc.id }}" class="btn btn-success">Recover</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function addKeyValueField() {
         var valuesContainer = document.getElementById('values-container');
@@ -203,9 +162,8 @@
         
         // Create an icon element for removal
         var removeIcon = document.createElement('i');
-        removeIcon.className = 'fas fa-trash';
-        removeIcon.title='Remove Field' // Assuming you're using FontAwesome icons
-        
+        removeIcon.className = 'fas fa-trash'; // Assuming you're using FontAwesome icons
+        removeIcon.title='Remove Field'
         // Append the icon to the remove button
         removeFieldBtn.appendChild(removeIcon);
         
@@ -236,6 +194,11 @@
         }
     }
 </script>
+<script>
+    $(document).ready(function(){
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 <style>
     /* Estilos para centrar la "X" en el botón de remover */
@@ -260,6 +223,11 @@
         justify-content: center;
         margin: 10px;
     }
+</style>
+
+
+<style>
+    /* Estilos para el contenedor de la izquierda */
     .sticky-container {
         position: sticky;
         top: 20px; /* Ajusta la distancia desde la parte superior según tus necesidades */
@@ -273,6 +241,10 @@
     }
    
 </style>
+
+    
+</script>
+
 {% endfor %}
 
 {% endblock %}

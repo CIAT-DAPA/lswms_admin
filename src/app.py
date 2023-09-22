@@ -8,6 +8,7 @@ from routes.waterpoint import waterpoint_bp
 from routes.typecontent import typecontent_bp
 from routes.wpcontent import wpcontent_bp
 from routes.wscontent import wscontent_bp
+from routes.home import home_bp
 from config import config
 import os
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.register_blueprint(waterpoint_bp)
 app.register_blueprint(typecontent_bp)
 app.register_blueprint(wpcontent_bp)
 app.register_blueprint(wscontent_bp)
+app.register_blueprint(home_bp)
 
 
 

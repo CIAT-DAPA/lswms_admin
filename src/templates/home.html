@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} 
+{% block body %}
+<div class="header-bg">
+    <div class="container container-header">
+      <div class="row justify-content-between flex-column flex-md-row">
+        <div class="col-12 col-md-7 col-lg-5 d-flex flex-column gap-2 mb-5 mb-md-0">
+          <h1 class="fw-medium" style="line-height: 140%;">
+            Manage Ethiopian Water Points
+          </h1>
+          <p class="fw-normal" style="line-height: 150%;">
+            Efficiently manage administrative levels, water points, and related content
+          </p>
+          <a href="/adm1" class="btn btn-primary text-white rounded-5 py-2 px-4 fw-medium" style="width: fit-content;">
+            Get started
+          </a>
+        </div>
+        <div class="col-12 col-md-5 col-lg-5 d-flex flex-column gap-2">
+          <h5 class="fw-medium" style="font-size: 1.2em;">Explore and Manage Data</h5>
+          <p class="fw-normal" style="line-height: 150%;">
+            Access the project's database management and analysis tools, empowering administrators to efficiently manage and oversee administrative levels, as well as water points. Take control, make updates, and streamline operations with ease
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="divider">
+      <div class="scroll-down-link scroll-down-arrow"></div>
+    </div>
+  </div>
+  <style>
+    .header-bg {
+      background: linear-gradient(
+        180deg,
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0.349) 100%
+      ),
+      url("../static/images/background.png");
+      background-size: cover;
+      background-position: top;
+      min-height: 100vh;
+    }
+
+    .container-header {
+      position: relative;
+      top: 150px;
+    }
+  </style>
+{% endblock %}
