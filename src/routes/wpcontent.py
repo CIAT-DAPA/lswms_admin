@@ -142,7 +142,7 @@ def edit_wpcontent(id_wpcontent):
         }
         weight = position_type_weights.get((position, type), None)
         if weight is not None:
-            # Crear el objeto 'content' con el peso asignado
+            
             content = {
                 'title': title,
                 'type': type,
@@ -156,7 +156,7 @@ def edit_wpcontent(id_wpcontent):
         
             flash("Content updated successfully")
         else:
-    # En caso de que no se encuentre un peso válido, manejarlo según corresponda
+   
             flash("Invalid position or type")
 
         
@@ -175,7 +175,7 @@ def delete_wpcontent(wpcontent_id):
 
     if wpcontent:
         if 'content' in wpcontent and 'trace' in wpcontent.content:
-            # Utiliza update para modificar el documento en lugar de cargarlo completo
+           
             Wpcontent.objects(id=wpcontent_id).update(set__content__trace__enabled=False)
 
             flash("wpcontent deleted successfully")
@@ -192,7 +192,7 @@ def recover_wpcontent(wpcontent_id):
 
     if wpcontent:
         if 'content' in wpcontent and 'trace' in wpcontent.content:
-            # Utiliza update para modificar el documento en lugar de cargarlo completo
+            
             Wpcontent.objects(id=wpcontent_id).update(set__content__trace__enabled=True)
 
             flash("wpcontent recover successfully")

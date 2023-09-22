@@ -7968,3 +7968,42 @@ readers do not read off random characters that represent icons */
   font-display: block;
   src: url("../webfonts/fa-v4compatibility.woff2") format("woff2"), url("../webfonts/fa-v4compatibility.ttf") format("truetype");
   unicode-range: U+F041,U+F047,U+F065-F066,U+F07D-F07E,U+F080,U+F08B,U+F08E,U+F090,U+F09A,U+F0AC,U+F0AE,U+F0B2,U+F0D0,U+F0D6,U+F0E4,U+F0EC,U+F10A-F10B,U+F123,U+F13E,U+F148-F149,U+F14C,U+F156,U+F15E,U+F160-F161,U+F163,U+F175-F178,U+F195,U+F1F8,U+F219,U+F27A; }
+
+      /* Estilos para centrar la "X" en el botón de remover */
+      .remove-button {
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px; /* Ajusta la altura según sea necesario */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+    .add{
+        border-radius: 50%;
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px;
+        width: 27px; /* Ajusta el ancho según sea necesario */
+        height: 27px; /* Ajusta la altura según sea necesario */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+    .header-bg {
+      background: linear-gradient(
+        180deg,
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0.349) 100%
+      ),
+      url("../static/images/background.png");
+      background-size: cover;
+      background-position: top;
+      min-height: 100vh;
+    }
+
+    .container-header {
+      position: relative;
+      top: 150px;
+    }
