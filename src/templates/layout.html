@@ -8,46 +8,40 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" style="height: 80px; padding: 20px">
-    <div class="container-fluid ">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" style="height: 80px; ">
+    <div class="container-fluid bg-dark">
         <a class="navbar-brand" href="/" style="color: white; font-size: 24px">EWP</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav" style="font-size: 18px">
-                <li class="nav-item">
-                    <a class="nav-link" href="/typecontent" style="color: white">Type Content</a>
-                </li>
+                
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                        Admin Levels
+                        Administrative Levels
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="/">Adm1</a></li>
+                        <li><a class="dropdown-item" href="/adm1">Adm1</a></li>
                         <li><a class="dropdown-item" href="/adm2">Adm2</a></li>
                         <li><a class="dropdown-item" href="/adm3">Adm3</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                        Waterpoint
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="/waterpoint">Waterpoint</a></li>
-                        <li><a class="dropdown-item" href="/wpcontent">Waterpoint Content</a></li>
+                        <li><a class="dropdown-item" href="/watershed">Watershed</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-                        Watershed
+                        Contents
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="/watershed">Watershed</a></li>
+                        <li><a class="dropdown-item" href="/wpcontent">Waterpoint Content</a></li>
                         <li><a class="dropdown-item" href="/wscontent">Watershed Content</a></li>
+                        <li><a class="dropdown-item" href="/typecontent">Category</a></li>
+
                     </ul>
                 </li>
+                
             </ul>
         </div>
     </div>
@@ -56,7 +50,7 @@
 
 
   <body>
-    <div class="container-fluid cont  " style="margin-top: 100px;">{% block body %} {% endblock %}</div>
+    <div class=" cont "  style="margin-top: 100px; ">{% block body %} {% endblock %}</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         // Selecciona todas las alertas con la clase "auto-dismiss-alert"
@@ -70,19 +64,22 @@
             }, 5000); // 2000 milisegundos = 2 segundos
         });
     </script>
+   <script   src="https://code.jquery.com/jquery-3.7.0.js"> </script>
+   <script   src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"> </script>
+   <script   src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"> </script>
+   <script src="../static/js/script.js"></script>
    
-    
   </body>
-  <footer>
+  <footer >
     <div class="container">
         <div class="row justify-content-between align-items-center py-3">
             <div class="col col-lg-4">
-                <p className="">CIAT All Rights reserved</p>
+                <p className="">CIAT and Alliance of Bioversity International rights reserved</p>
             <a
-              href="mailto: J.R.Villegas@cgiar.org"
-              className="text-decoration-none text-white"
+              href="mailto: S.alemayehu@cgiar.org"
+              className="text-decoration-none color-white"
             >
-              Email: J.R.Villegas@cgiar.org
+              Email: S.alemayehu@cgiar.org
             </a>
             </div>
             <div class="col d-flex flex-column flex-md-row align-items-center justify-content-between mt-3 d-lg-block col-lg-auto mt-lg-0">
@@ -100,10 +97,10 @@
   </footer>
   <style>
     footer{
-       
+    
     background-color: #04335D;
+    
     color: white;
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -112,9 +109,7 @@ a{
     text-decoration: none;
 }
 
-.cont{
-    margin-bottom: 130px;
-}
+
 
   </style>
 </html>

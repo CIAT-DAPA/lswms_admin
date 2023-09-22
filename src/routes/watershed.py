@@ -9,8 +9,15 @@ watershed_bp = Blueprint('watershed', __name__)
 @watershed_bp.route('/watershed')
 def show_watershed():
     watershed = Watershed.objects()
-    adm3=Adm3.objects()
+    adm3 = Adm3.objects(trace__enabled=True)
     return render_template('watershed.html', watershed=watershed, adm3=adm3)
+
+@watershed_bp.route('/addwatershed')
+def addd_watershed():
+    watershed = Watershed.objects(trace__enabled=True)
+    adm3 = Adm3.objects(trace__enabled=True)
+    return render_template('addWatershed.html', watershed=watershed, adm3=adm3)
+
 
 @watershed_bp.route('/watershed/add', methods=['POST'])
 def add_wateshed():
@@ -50,7 +57,10 @@ def delete_watershed(watershed_id):
     watershed = Watershed.objects(id=watershed_id).first()
 
     if watershed:
-        watershed.delete()
+        trace = watershed.trace
+
+        trace['enabled'] = False
+        watershed.update(trace=trace)
         flash("Watershed deleted successfully")
     else:
         flash("Watershed not found")
@@ -58,3 +68,17 @@ def delete_watershed(watershed_id):
     return redirect('/watershed')
 
 
+@watershed_bp.route('/resetwatershed/<string:watershed_id>')
+def reset_watershed(watershed_id):
+    watershed = Watershed.objects(id=watershed_id).first()
+
+    if watershed:
+        trace = watershed.trace
+
+        trace['enabled'] = True
+        watershed.update(trace=trace)
+        flash("Watershed recover successfully")
+    else:
+        flash("Watershed not found")
+
+    return redirect('/watershed')

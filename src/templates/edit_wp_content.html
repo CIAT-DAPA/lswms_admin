@@ -28,24 +28,29 @@
           </select>                            
       </div>
       <div class="mb-3">
-        <label for="wp" class="form-label">Select Category:</label>
+        <label for="type" class="form-label">Select language :</label>
+        <select class="form-select" id="language" name="language" required>
+            {% for lg in languages %}
+                <option value="{{ lg.value }}" {% if lg.value == wpcontent.content.language
+                  %}selected{% endif %}>{{ lg.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+      <div class="mb-3">
+        <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select the category of content you want to save, these categories refer to certain values ​​such as livehood, Gender, agriculture among others.">
+          <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+      </span>Select Category :</label>
         <select class="form-select" id="typecontent" name="typecontent" required>
             {% for tp in typecontent %}
                 <option value="{{ tp.id }}" {% if tp.id == wpcontent.type.id %}selected{% endif %}>{{ tp.name }}</option>
             {% endfor %}
         </select>                            
     </div>
+    
     <div class="mb-3">
-      <label for="type" class="form-label">Select language :</label>
-      <select class="form-select" id="language" name="language" required>
-          {% for lg in languages %}
-              <option value="{{ lg.value }}" {% if lg.value == wpcontent.content.language
-                %}selected{% endif %}>{{ lg.label }}</option>
-          {% endfor %}
-      </select>
-  </div>
-    <div class="mb-3">
-      <label for="type" class="form-label">Select a type :</label>
+      <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select the type of content you want to add, this way it will be rendered in the web application.">
+        <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+    </span>Select a type :</label>
       <select class="form-select" id="type" name="type" required>
           {% for option in options %}
               <option value="{{ option }}" {% if option == wpcontent.content.type %}selected{% endif %}>{{ option }}</option>
@@ -53,7 +58,9 @@
       </select>
   </div>
   <div class="mb-3">
-    <label for="position" class="form-label">Select a position :</label>
+    <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select where on the screen you want the content to be rendered, on the left or right of the screen.  ">
+      <i class="fa fa-info-circle" style="font-size: 15px;"></i>
+  </span>Select sosition :</label>
     <select class="form-select" id="position" name="position" required>
         {% for ps in positions %}
             <option value="{{ ps }}" {% if ps == wpcontent.content.position %}selected{% endif %}>{{ ps }}</option>
