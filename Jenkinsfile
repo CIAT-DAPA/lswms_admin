@@ -37,9 +37,9 @@ pipeline {
                         fi
                         cd /var/www/waterpoinsAdmin/admin_WP
                         sudo kill -9 \$(sudo ss -nepal | grep 5002 | awk '{print \$9}' | awk -F '/' '{print \$1}')
-                        curl -LOk https://github.com/CIAT-DAPA/lswms_admin/releases/latest/download/releaseApi.zip
-                        unzip -o releaseApi.zip
-                        rm -fr releaseApi.zip
+                        curl -LOk https://github.com/CIAT-DAPA/lswms_admin/releases/latest/download/releaseADMIN.zip
+                        unzip -o releaseADMIN.zip
+                        rm -fr releaseADMIN.zip
                         python3 -m venv env
                     """
                 }
