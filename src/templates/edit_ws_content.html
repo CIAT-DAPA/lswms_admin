@@ -60,7 +60,7 @@
   <div class="mb-3">
     <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select where on the screen you want the content to be rendered, on the left or right of the screen.  ">
       <i class="fa fa-info-circle" style="font-size: 15px;"></i>
-  </span>Select position :</label>
+  </span>Select osition :</label>
     <select class="form-select" id="position" name="position" required>
         {% for ps in positions %}
             <option value="{{ ps }}" {% if ps == wscontent.content.position %}selected{% endif %}>{{ ps }}</option>
