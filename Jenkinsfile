@@ -33,9 +33,10 @@ pipeline {
                         if [ ! -d admin_WP ]; then
                             mkdir ./admin_WP
                             cd ./admin_WP
-                            rm -rf env
                         fi
                         cd /var/www/waterpoinsAdmin/admin_WP
+                        rm -rf env
+                        rm -rf src
                         sudo kill -9 \$(sudo ss -nepal | grep 5002 | awk '{print \$9}' | awk -F '/' '{print \$1}')
                         curl -LOk https://github.com/CIAT-DAPA/lswms_admin/releases/latest/download/releaseADMIN.zip
                         unzip -o releaseADMIN.zip
