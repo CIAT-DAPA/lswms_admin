@@ -60,7 +60,7 @@
   <div class="mb-3">
     <label for="type" class="form-label"> <span class="bg-blue" data-toggle="tooltip" data-placement="top" title="Here you can select where on the screen you want the content to be rendered, on the left or right of the screen.  ">
       <i class="fa fa-info-circle" style="font-size: 15px;"></i>
-  </span>Select sosition :</label>
+  </span>Select position :</label>
     <select class="form-select" id="position" name="position" required>
         {% for ps in positions %}
             <option value="{{ ps }}" {% if ps == wscontent.content.position %}selected{% endif %}>{{ ps }}</option>
@@ -73,31 +73,51 @@
         </div>
         <div id="values-container">
           {% for value in wscontent.content['values'] %}
-          <div class="value-pair mb-3">
-            {% for key, val in value.items() %}
-            <label for="">Key</label>
-            <input
-              type="text"
-              class="form-control"
-              name="keys[]"
-              value="{{ key }}"
-            />
-            <label for="">Value</label>
-
-            <input
-              type="text"
-              class="form-control"
-              name="values[]"
-              value="{{ val }}"
-            />
-            <button type="button" class="btn btn-danger float-end remove-button" title="Remove Field" onclick="removeValuePair(this)">
-              <i class="fas fa-trash"></i>
-
-            </button>
-            {% endfor %}
-          </div>
+            <div class="value-pair mb-3">
+              {% for key, val in value.items() %}
+                <label for="">Key</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="keys[]"
+                  value="{{ key }}"
+                />
+                <label for="">Value</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="values[]"
+                  value="{{ val }}"
+                />
+              {% endfor %}
+              
+              <button type="button" class="btn btn-danger float-end remove-button" title="Remove Field" onclick="removeFieldValue(this)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
           {% endfor %}
         </div>
+        
+        <script>
+          function removeFieldValue(button) {
+            var valuePair = button.closest('.value-pair');
+            valuePair.remove();
+            checkRemoveButtonVisibility();
+          }
+        
+          function checkRemoveButtonVisibility() {
+            var valuesContainer = document.getElementById('values-container');
+            var fieldPairs = valuesContainer.querySelectorAll('.value-pair');
+            var removeKeyValueBtn = document.getElementById('removeKeyValueBtn');
+        
+            if (fieldPairs.length >= 2) {
+              removeKeyValueBtn.style.display = 'inline-block';
+            } else {
+              removeKeyValueBtn.style.display = 'none';
+            }
+          }
+        </script>
+        
         
         <div class="text-center">
           <button type="button" class="btn btn-success add-button add" title="Add Field" onclick="addKeyValueField()">
