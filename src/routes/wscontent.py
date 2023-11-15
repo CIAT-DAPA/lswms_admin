@@ -3,9 +3,11 @@ from ormWP import Wscontent
 from ormWP import Watershed
 from ormWP import Typecontent
 from datetime import datetime
+from flask_login import login_required  
 wscontent_bp = Blueprint('wscontent', __name__)
 
 @wscontent_bp.route('/wscontent')
+@login_required
 def show_wscontent():
     wscontent = Wscontent.objects()
     watershed= Watershed.objects(trace__enabled=True)
@@ -24,6 +26,7 @@ def show_wscontent():
     return render_template('wscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
 
 @wscontent_bp.route('/addwscontent')
+@login_required
 def addd_wscontent():
     wscontent = Wscontent.objects(content__trace__enabled=True)
     watershed= Watershed.objects(trace__enabled=True)
@@ -42,6 +45,7 @@ def addd_wscontent():
     return render_template('addWscontent.html', wscontent=wscontent,watershed=watershed,typecontent=typecontent,options=options,positions=positions,languages=languages)
 
 @wscontent_bp.route('/wscontent/add', methods=['GET', 'POST'])
+@login_required
 def add_wscontent():
     if request.method == 'POST':
         # Obtener los datos del formulario
@@ -93,6 +97,7 @@ def add_wscontent():
 
 
 @wscontent_bp.route('/editwscontent/<string:id_wscontent>', methods=['GET', 'POST'])
+@login_required
 def edit_wscontent(id_wscontent):
     wscontent = Wscontent.objects(id=id_wscontent).first()
     print(wscontent.content)
@@ -158,6 +163,7 @@ def edit_wscontent(id_wscontent):
     
 
 @wscontent_bp.route('/deletewscontent/<string:wscontent_id>')
+@login_required
 def delete_wpcontent(wscontent_id):
     wscontent = Wscontent.objects(id=wscontent_id).first()
 
@@ -173,6 +179,7 @@ def delete_wpcontent(wscontent_id):
 
     return redirect('/wscontent')
 @wscontent_bp.route('/resetwscontent/<string:wscontent_id>')
+@login_required
 def recover_wscontent(wscontent_id):
     wscontent = Wscontent.objects(id=wscontent_id).first()
 
@@ -188,3 +195,7 @@ def recover_wscontent(wscontent_id):
         flash("wpcontent not found")
 
     return redirect('/wscontent')
+
+@wscontent_bp.errorhandler(401)
+def unauthorized_handler(error):
+    return render_template('error.html'), 401

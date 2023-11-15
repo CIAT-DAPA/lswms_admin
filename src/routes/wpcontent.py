@@ -3,9 +3,11 @@ from ormWP import Wpcontent
 from ormWP import Waterpoint
 from ormWP import Typecontent
 from datetime import datetime
+from flask_login import login_required  
 wpcontent_bp = Blueprint('wpcontent', __name__)
 
 @wpcontent_bp.route('/wpcontent')
+@login_required
 def show_wpcontent():
     wpcontent = Wpcontent.objects()
     waterpoint= Waterpoint.objects(trace__enabled=True)
@@ -21,6 +23,7 @@ def show_wpcontent():
     
     return render_template('wpcontent.html', wpcontent=wpcontent,waterpoint=waterpoint,typecontent=typecontent,options=options,positions=positions,languages=languages)
 @wpcontent_bp.route('/addwpcontent')
+@login_required
 def addd_wpcontent():
     wpcontent = Wpcontent.objects(content__trace__enabled=True)
     waterpoint= Waterpoint.objects(trace__enabled=True)
@@ -38,6 +41,7 @@ def addd_wpcontent():
 
 
 @wpcontent_bp.route('/wpcontent/add', methods=['GET', 'POST'])
+@login_required
 def add_wpcontent():
     if request.method == 'POST':
         # Obtener los datos del formulario
@@ -95,6 +99,7 @@ def add_wpcontent():
 
 
 @wpcontent_bp.route('/editwpcontent/<string:id_wpcontent>', methods=['GET', 'POST'])
+@login_required
 def edit_wpcontent(id_wpcontent):
     wpcontent = Wpcontent.objects(id=id_wpcontent).first()
     waterpoint= Waterpoint.objects()
@@ -170,6 +175,7 @@ def edit_wpcontent(id_wpcontent):
     
 
 @wpcontent_bp.route('/deletewpcontent/<string:wpcontent_id>')
+@login_required
 def delete_wpcontent(wpcontent_id):
     wpcontent = Wpcontent.objects(id=wpcontent_id).first()
 
@@ -187,6 +193,7 @@ def delete_wpcontent(wpcontent_id):
     return redirect('/wpcontent')
 
 @wpcontent_bp.route('/resetwpcontent/<string:wpcontent_id>')
+@login_required
 def recover_wpcontent(wpcontent_id):
     wpcontent = Wpcontent.objects(id=wpcontent_id).first()
 
@@ -202,3 +209,7 @@ def recover_wpcontent(wpcontent_id):
         flash("wpcontent not found")
 
     return redirect('/wpcontent')
+
+@wpcontent_bp.errorhandler(401)
+def unauthorized_handler(error):
+    return render_template('error.html'), 401
