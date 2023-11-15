@@ -36,7 +36,7 @@ pipeline {
                         cd /var/www/waterpoinsAdmin/admin_WP
                         rm -rf env
                         rm -rf src
-                        sudo kill -9 \$(sudo ss -nepal | grep 5002 | awk '{print \$9}' | awk -F '/' '{print \$1}')
+                        kill -9 $(lsof -t -i:5002)
                         curl -LOk https://github.com/CIAT-DAPA/lswms_admin/releases/latest/download/releaseADMIN.zip
                         unzip -o releaseADMIN.zip
                         rm -fr releaseADMIN.zip
@@ -68,6 +68,8 @@ pipeline {
                         export WP_ADMIN_PORT=5002
                         export CONNECTION_DB=mongodb://localhost:27017/waterpoints
                         export HOST=0.0.0.0
+                        export WP_ADMIN_USER=ethwaterpoints
+                        export WP_ADMIN_PASSWORD=EthWP151123
                         nohup python3 app.py > log.txt 2>&1 &
                     """
                 }
