@@ -5,21 +5,25 @@ from ormWP import Adm3
 from ormWP import Watershed
 from ormWP import Waterpoint
 from datetime import datetime
+from flask_login import login_required  
 waterpoint_bp = Blueprint('waterpoint', __name__)
 
 @waterpoint_bp.route('/waterpoint')
+@login_required
 def show_waterpoint():
     waterpoint = Waterpoint.objects()
     watershed=Watershed.objects(trace__enabled=True)
     return render_template('waterpoint.html', waterpoint=waterpoint, watershed=watershed)
 
 @waterpoint_bp.route('/addwaterpoint')
+@login_required
 def addd_waterpoint():
     waterpoint = Waterpoint.objects(trace__enabled=True)
     watershed=Watershed.objects(trace__enabled=True)
     return render_template('addWaterpoint.html', waterpoint=waterpoint, watershed=watershed)
 
 @waterpoint_bp.route('/waterpoint/add', methods=['POST'])
+@login_required
 def add_waterpoint():
     name = request.form['name']
     lat = request.form['lat']
@@ -34,6 +38,7 @@ def add_waterpoint():
     return redirect('/waterpoint')
 
 @waterpoint_bp.route('/editwaterpoint/<string:waterpoint_id>', methods=['GET', 'POST'])
+@login_required
 def edit_waterpoint(waterpoint_id):
     waterpoint = Waterpoint.objects(id=waterpoint_id).first()
     watershed=Watershed.objects()
@@ -57,6 +62,7 @@ def edit_waterpoint(waterpoint_id):
     return render_template('edit_waterpoint.html', waterpoint=waterpoint,watershed=watershed)
 
 @waterpoint_bp.route('/deletewaterpoint/<string:waterpoint_id>')
+@login_required
 def delete_waterpoint(waterpoint_id):
     waterpoint = Waterpoint.objects(id=waterpoint_id).first()
 
@@ -72,6 +78,7 @@ def delete_waterpoint(waterpoint_id):
     return redirect('/waterpoint')
 
 @waterpoint_bp.route('/resetwaterpoint/<string:waterpoint_id>')
+@login_required
 def waterpoint(waterpoint_id):
     waterpoint = Waterpoint.objects(id=waterpoint_id).first()
 
@@ -85,3 +92,7 @@ def waterpoint(waterpoint_id):
         flash("Waterpoint not found")
 
     return redirect('/waterpoint')
+
+@waterpoint_bp.errorhandler(401)
+def unauthorized_handler(error):
+    return render_template('error.html'), 401
