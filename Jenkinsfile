@@ -36,7 +36,7 @@ pipeline {
                         cd /var/www/waterpoinsAdmin/admin_WP
                         rm -rf env
                         rm -rf src
-                        kill -9 $(lsof -t -i:5002)
+                        kill -9 \$(lsof -t -i:5002)
                         curl -LOk https://github.com/CIAT-DAPA/lswms_admin/releases/latest/download/releaseADMIN.zip
                         unzip -o releaseADMIN.zip
                         rm -fr releaseADMIN.zip
