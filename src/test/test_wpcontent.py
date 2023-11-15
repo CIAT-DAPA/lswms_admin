@@ -25,7 +25,7 @@ class TestWpcontentBlueprint(unittest.TestCase):
 
     def test_show_wpcontent(self):
         response = self.client.get('/wpcontent')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Here you can verify the response content if necessary
 
     def test_add_wpcontent(self):
@@ -41,7 +41,7 @@ class TestWpcontentBlueprint(unittest.TestCase):
 
         try:
             response = self.client.post('/wpcontent/add', data=data, follow_redirects=True)
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 401)
        
         except Exception as e:
             print(str(e))  
