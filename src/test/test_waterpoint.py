@@ -25,13 +25,13 @@ class TestWaterpointBlueprint(unittest.TestCase):
 
     def test_show_waterpoint(self):
         response = self.client.get('/waterpoint')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Here you can verify the response content if necessary
 
     def test_add_waterpoint(self):
         data = {'name': 'Test waterpoint', 'area': '123','watershed':'64d1bec4f8b9461ac6ed74cc','lat':'123','lon':'123','ext_id':'123'}
         response = self.client.post('/waterpoint/add', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is saved in the in-memory database (if applicable)
 
 
@@ -41,7 +41,7 @@ class TestWaterpointBlueprint(unittest.TestCase):
         waterpoint.save()
 
         response = self.client.get(f'/deletewaterpoint/{waterpoint.id}', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is deleted correctly from the in-memory database (if applicable)
 
 if __name__ == '__main__':

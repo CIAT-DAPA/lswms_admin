@@ -1,0 +1,20 @@
+{% extends 'layout.html' %} 
+{% block body %}
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+
+{% endblock %}
+<div style="height: 100vh;" class="d-flex justify-content-around flex-column align-items-center flex-lg-row">
+    <img class="mb-4" src="{{ url_for('static', filename='images/unautorized.png') }}" alt="" style="width: 350px;">
+
+    <div>
+        <h1>Oops! It seems you are not authorized to access this resource.</h1>
+        <p>Please log in to access this page.</p>
+        <a href="/login" class="btn btn-primary">Login</a>
+    </div>
+    
+</div>
+
+
+ 
+{% endblock %}

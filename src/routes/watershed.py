@@ -4,15 +4,19 @@ from ormWP import Adm2
 from ormWP import Adm3
 from ormWP import Watershed
 from datetime import datetime
+from flask_login import login_required  
+
 watershed_bp = Blueprint('watershed', __name__)
 
 @watershed_bp.route('/watershed')
+@login_required
 def show_watershed():
     watershed = Watershed.objects()
     adm3 = Adm3.objects(trace__enabled=True)
     return render_template('watershed.html', watershed=watershed, adm3=adm3)
 
 @watershed_bp.route('/addwatershed')
+@login_required
 def addd_watershed():
     watershed = Watershed.objects(trace__enabled=True)
     adm3 = Adm3.objects(trace__enabled=True)
@@ -20,6 +24,7 @@ def addd_watershed():
 
 
 @watershed_bp.route('/watershed/add', methods=['POST'])
+@login_required
 def add_wateshed():
     name = request.form['name']
     area = request.form['area']
@@ -33,6 +38,7 @@ def add_wateshed():
     return redirect('/watershed')
 
 @watershed_bp.route('/editwatershed/<string:watershed_id>', methods=['GET', 'POST'])
+@login_required
 def edit_watershed(watershed_id):
     watershed = Watershed.objects(id=watershed_id).first()
     adm3=Adm3.objects()
@@ -53,6 +59,7 @@ def edit_watershed(watershed_id):
     return render_template('edit_watershed.html', watershed=watershed,adm3=adm3)
 
 @watershed_bp.route('/deletewatershed/<string:watershed_id>')
+@login_required
 def delete_watershed(watershed_id):
     watershed = Watershed.objects(id=watershed_id).first()
 
@@ -69,6 +76,7 @@ def delete_watershed(watershed_id):
 
 
 @watershed_bp.route('/resetwatershed/<string:watershed_id>')
+@login_required
 def reset_watershed(watershed_id):
     watershed = Watershed.objects(id=watershed_id).first()
 
@@ -82,3 +90,6 @@ def reset_watershed(watershed_id):
         flash("Watershed not found")
 
     return redirect('/watershed')
+@watershed_bp.errorhandler(401)
+def unauthorized_handler(error):
+    return render_template('error.html'), 401

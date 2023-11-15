@@ -25,13 +25,13 @@ class TestAdm2Blueprint(unittest.TestCase):
 
     def test_show_adm3(self):
         response = self.client.get('/adm2')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Here you can verify the response content if necessary
 
     def test_add_adm2(self):
         data = {'name': 'Test Adm2', 'ext_id': '123','adm1':'64d1bec4f8b9461ac6ed74cc'}
         response = self.client.post('/adm2/add', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is saved in the in-memory database (if applicable)
 
 
@@ -41,7 +41,7 @@ class TestAdm2Blueprint(unittest.TestCase):
         adm2.save()
 
         response = self.client.get(f'/deleteadm2/{adm2.id}', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is deleted correctly from the in-memory database (if applicable)
 
 if __name__ == '__main__':

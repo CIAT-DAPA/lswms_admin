@@ -26,7 +26,7 @@ class TestWscontentBlueprint(unittest.TestCase):
 
     def test_show_wscontent(self):
         response = self.client.get('/wscontent')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Here you can verify the response content if necessary
 
     def test_add_wscontent(self):
@@ -42,7 +42,7 @@ class TestWscontentBlueprint(unittest.TestCase):
 
         try:
             response = self.client.post('/wscontent/add', data=data, follow_redirects=True)
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 401)
        
         except Exception as e:
             print(str(e))  

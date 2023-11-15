@@ -3,21 +3,25 @@ from ormWP import Adm1
 from ormWP import Adm2
 from ormWP import Adm3
 from datetime import datetime
+from flask_login import login_required  
 adm3_bp = Blueprint('adm3', __name__)
 
 @adm3_bp.route('/adm3')
+@login_required
 def show_adm3():
     adm3 = Adm3.objects()
     adm2 = Adm2.objects(trace__enabled=True)
     return render_template('adm3.html', adm3=adm3, adm2=adm2)
 
 @adm3_bp.route('/addadm3')
+@login_required
 def addd_adm3():
     adm3 = Adm3.objects(trace__enabled=True)
     adm2 = Adm2.objects(trace__enabled=True)
     return render_template('addAdm3.html', adm3=adm3, adm2=adm2)
 
 @adm3_bp.route('/adm3/add', methods=['POST'])
+@login_required
 def add_adm3():
     name = request.form['name']
     ext_id = request.form['ext_id']
@@ -29,6 +33,7 @@ def add_adm3():
     return redirect('/adm3')
 
 @adm3_bp.route('/editadm3/<string:adm3_id>', methods=['GET', 'POST'])
+@login_required
 def edit_adm3(adm3_id):
     adm3 = Adm3.objects(id=adm3_id).first()
     adm2=Adm2.objects()
@@ -49,6 +54,7 @@ def edit_adm3(adm3_id):
     return render_template('edit_adm3.html', adm3=adm3,adm2=adm2)
 
 @adm3_bp.route('/deleteadm3/<string:adm3_id>')
+@login_required
 def delete_adm3(adm3_id):
     adm3 = Adm3.objects(id=adm3_id).first()
 
@@ -64,6 +70,7 @@ def delete_adm3(adm3_id):
     return redirect('/adm3')
 
 @adm3_bp.route('/resetadm3/<string:adm3_id>')
+@login_required
 def reset_adm2(adm3_id):
     adm3 = Adm3.objects(id=adm3_id).first()
 
@@ -78,4 +85,6 @@ def reset_adm2(adm3_id):
 
     return redirect('/adm3')
 
-
+@adm3_bp.errorhandler(401)
+def unauthorized_handler(error):
+    return render_template('error.html'), 401
