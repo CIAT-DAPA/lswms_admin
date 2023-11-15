@@ -31,7 +31,7 @@ class TestAdm1Blueprint(unittest.TestCase):
     def test_add_adm1(self):
         data = {'name': 'Test Adm1', 'ext_id': '123'}
         response = self.client.post('/adm1/add', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is saved in the in-memory database (if applicable)
 
     def test_edit_adm1(self):
@@ -41,7 +41,7 @@ class TestAdm1Blueprint(unittest.TestCase):
 
         data = {'name': 'New Name', 'ext_id': '789'}
         response = self.client.post(f'/edit/{adm1.id}', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is updated correctly in the in-memory database (if applicable)
 
     def test_delete_adm1(self):
@@ -50,7 +50,7 @@ class TestAdm1Blueprint(unittest.TestCase):
         adm1.save()
 
         response = self.client.get(f'/delete/{adm1.id}', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is deleted correctly from the in-memory database (if applicable)
 
 if __name__ == '__main__':

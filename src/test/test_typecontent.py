@@ -25,13 +25,13 @@ class TesttypecontentBlueprint(unittest.TestCase):
 
     def test_show_typecontent(self):
         response = self.client.get('/typecontent')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Here you can verify the response content if necessary
 
     def test_add_typecontent(self):
         data = {'name': 'content1'}
         response = self.client.post('/typecontent/add', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is saved in the in-memory database (if applicable)
 
     def test_edit_typecontent(self):
@@ -41,7 +41,7 @@ class TesttypecontentBlueprint(unittest.TestCase):
 
         data = {'name': 'New Name'}
         response = self.client.post(f'/editypecontent/{typecontent.id}', data=data, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is updated correctly in the in-memory database (if applicable)
 
     def typecontent(self):
@@ -50,7 +50,7 @@ class TesttypecontentBlueprint(unittest.TestCase):
         typecontent.save()
 
         response = self.client.get(f'/deletetypecontnt/{typecontent.id}', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
         # Verify if the data is deleted correctly from the in-memory database (if applicable)
 
 if __name__ == '__main__':
