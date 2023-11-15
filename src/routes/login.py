@@ -25,6 +25,6 @@ def login():
 @login_bp.route('/logout')
 def logout():
     logout_user()
-    flash('Sesión cerrada', 'success')
+    flash('Logged out', 'success')
     return redirect('/login') 
 
