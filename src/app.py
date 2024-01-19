@@ -23,7 +23,6 @@ app.secret_key = os.urandom(24)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
-# Configuración del login manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_user_by_username(user_id)

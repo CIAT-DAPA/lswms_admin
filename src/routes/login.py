@@ -16,9 +16,7 @@ def login():
 
         if user:
             print(user.user_obj["id"])
-            # Obtener el ID del realm
             realm_id=User.get_realm_id()
-            # Obtener el ID del rol "admin" para el realm específico
             id_role = User.get_role_id_by_name(realm_id)
 
             roles=User.get_user_role_mapping_by_role_id(id_role)
