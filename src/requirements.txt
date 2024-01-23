@@ -12,6 +12,8 @@ git+https://github.com/CIAT-DAPA/lswms_models
 mongoengine==0.26.0
 mongomock==4.1.2
 packaging==23.2
+psycopg2==2.9.9
+pycryptodome==3.20.0
 pymongo==4.4.1
 python-dotenv==1.0.0
 sentinels==1.0.0
