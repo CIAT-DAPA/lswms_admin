@@ -16,6 +16,9 @@ from config import config
 import os
 import flask_login
 import psycopg2
+name_db=os.getenv('USERS_DB_NAME')
+user=os.getenv('USERS_DB_USER')
+passw=os.getenv('USERS_DB_PASS')
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -40,7 +43,7 @@ app.register_blueprint(login_bp)
 
 
 def connect_to_postgres():
-    return psycopg2.connect(user="root", password="s3cr3t", dbname="keycloak", host="localhost", port="5432")
+    return psycopg2.connect(user=user, password=passw, dbname=name_db, host="localhost", port="5432")
 
 
 def perform_postgres_query(connection, query):
