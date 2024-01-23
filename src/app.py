@@ -10,10 +10,12 @@ from routes.wpcontent import wpcontent_bp
 from routes.wscontent import wscontent_bp
 from routes.home import home_bp
 from routes.login import login_bp
-from models.models import User  # Asegúrate de que la importación sea correcta
+from models.models import User
+from models.database import connect_to_postgres, perform_postgres_query
 from config import config
 import os
 import flask_login
+import psycopg2
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -21,10 +23,9 @@ app.secret_key = os.urandom(24)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
-# Configuración del login manager
 @login_manager.user_loader
-def load_user(email):
-    return User.get(email)  # Aquí deberías tener una función en tu modelo para obtener un usuario por su email
+def load_user(user_id):
+    return User.get_user_by_username(user_id)
 
 app.register_blueprint(adm1_bp)
 app.register_blueprint(adm2_bp)
@@ -37,10 +38,29 @@ app.register_blueprint(wscontent_bp)
 app.register_blueprint(home_bp)
 app.register_blueprint(login_bp)
 
+
+def connect_to_postgres():
+    return psycopg2.connect(user="root", password="s3cr3t", dbname="keycloak", host="localhost", port="5432")
+
+
+def perform_postgres_query(connection, query):
+    cursor = connection.cursor()
+    cursor.execute(query)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
+
 if __name__ == '__main__':
     connect(host=config['CONNECTION_DB'])
-    print("Connected DB")
-    
+    print("Connected to MongoDB")
+
+    # Conexión a PostgreSQL
+    postgres_connection = connect_to_postgres()
+    print("Conectado a PostgreSQL")
+
+    postgres_connection.close()
+
     if config['DEBUG']:
         app.run(threaded=True, port=config['PORT'], debug=config['DEBUG'])
     else:
