@@ -16,8 +16,8 @@ class User(UserMixin):
     @staticmethod
     def get_user_by_username(username):
         postgres_connection = connect_to_postgres()
+        query_result = perform_postgres_query(postgres_connection, f"SELECT * FROM user_entity WHERE email = '{username}' AND enabled = true;")
 
-        query_result = perform_postgres_query(postgres_connection, f"SELECT * FROM user_entity WHERE email = '{username}';")
 
         if query_result:
             print(f"el query es {query_result}")
