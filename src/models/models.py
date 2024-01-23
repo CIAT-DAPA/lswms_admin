@@ -17,12 +17,14 @@ class User(UserMixin):
     def get_user_by_username(username):
         postgres_connection = connect_to_postgres()
 
-        query_result = perform_postgres_query(postgres_connection, f"SELECT * FROM user_entity WHERE username = '{username}';")
+        query_result = perform_postgres_query(postgres_connection, f"SELECT * FROM user_entity WHERE email = '{username}';")
 
         if query_result:
+            print(f"el query es {query_result}")
             user_id = query_result[0][0]
             email = query_result[0][1]
             user_obj = {'id': user_id, 'email': email}
+            print(user_obj)
             return User(user_obj)
 
         return None
@@ -31,7 +33,7 @@ class User(UserMixin):
     def get_realm_id():
         postgres_connection = connect_to_postgres()
 
-        query_result_realm = perform_postgres_query(postgres_connection, "SELECT * FROM realm WHERE name = 'auth-react';")
+        query_result_realm = perform_postgres_query(postgres_connection, "SELECT * FROM realm WHERE name = 'waterpoints-monitoring';")
 
         # Verificar si se obtuvo algún resultado
         if query_result_realm:
@@ -46,7 +48,7 @@ class User(UserMixin):
 
         query_result_role = perform_postgres_query(
             postgres_connection,
-            f"SELECT * FROM keycloak_role WHERE realm_id = '{realm_id}' AND name = 'admin';"
+            f"SELECT * FROM keycloak_role WHERE realm_id = '{realm_id}' AND name = 'admin-webadmin';"
         )
 
 
@@ -83,7 +85,6 @@ class User(UserMixin):
         postgres_connection = connect_to_postgres()
         query_credentials= perform_postgres_query(postgres_connection, f"SELECT * FROM credential WHERE user_id = '{id_user}';")
         if query_credentials:
-            print(f"las credenciales son {query_credentials[0]}")
             return query_credentials[0]
     @staticmethod
     def verify_password(input_password, user_data):

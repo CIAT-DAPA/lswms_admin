@@ -22,7 +22,6 @@ def login():
             roles=User.get_user_role_mapping_by_role_id(id_role)
 
             credentials = User.get_credentials(user.user_obj['id'])
-            print(credentials)
             if User.verify_password(password, credentials):
                 print("password correcto")
             else:
@@ -30,10 +29,12 @@ def login():
             if User.check_user_has_role(user.user_obj['id'],roles) and User.verify_password(password, credentials):
                 print("tiene el rol")
                 login_user(user)
+
+                print(current_user.is_authenticated)
+                
                 flash('Success', 'success')
                 return redirect('/adm1')
             else:
-                print("no tiene el rol")
                 flash('sorry you are not admin', 'error')
         else:
             flash('Incorrect credentials', 'error')

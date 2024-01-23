@@ -68,8 +68,9 @@ pipeline {
                         export WP_ADMIN_PORT=5002
                         export CONNECTION_DB=mongodb://localhost:27017/waterpoints
                         export HOST=0.0.0.0
-                        export WP_ADMIN_USER=ethwaterpoints
-                        export WP_ADMIN_PASSWORD=EthWP151123
+                        export USERS_DB_NAME=\$(cat /var/www/postgdbname.txt) 
+                        export USERS_DB_USER=\$(cat /var/www/postgresuser.txt) 
+                        export USERS_DB_PASS=\$(cat /var/www/postgrespass.txt) 
                         nohup python3 app.py > log.txt 2>&1 &
                     """
                 }
