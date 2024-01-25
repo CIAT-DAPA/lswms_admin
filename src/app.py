@@ -10,15 +10,16 @@ from routes.wpcontent import wpcontent_bp
 from routes.wscontent import wscontent_bp
 from routes.home import home_bp
 from routes.login import login_bp
+from routes.alerts import alerts_bp
 from models.models import User
 from models.database import connect_to_postgres, perform_postgres_query
 from config import config
 import os
 import flask_login
 import psycopg2
-name_db=os.getenv('USERS_DB_NAME')
-user=os.getenv('USERS_DB_USER')
-passw=os.getenv('USERS_DB_PASS')
+name_db = os.getenv('USERS_DB_NAME', 'prueba2key')
+user = os.getenv('USERS_DB_USER', 'root')
+passw = os.getenv('USERS_DB_PASS', 's3cr3t')
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -39,7 +40,7 @@ app.register_blueprint(wpcontent_bp)
 app.register_blueprint(wscontent_bp)
 app.register_blueprint(home_bp)
 app.register_blueprint(login_bp)
-
+app.register_blueprint(alerts_bp)
 
 def connect_to_postgres():
     return psycopg2.connect(user=user, password=passw, dbname=name_db, host="localhost", port="5432")
