@@ -12,10 +12,12 @@ def allowed_file(filename):
     return extension.lower() == '.html' and name.lower() in ALLOWED_NAMES
 
 @alerts_bp.route('/addalert')
+@login_required
 def add_alert():
     return render_template('addAlert.html')
 
 @alerts_bp.route('/alert/add', methods=['POST'])
+@login_required
 def upload_file():
     if 'file' not in request.files:
         flash('No file provided')
@@ -42,6 +44,7 @@ def unauthorized_handler(error):
     return render_template('error.html'), 401
 
 @alerts_bp.route('/download')
+@login_required
 def download_file():
     directory = '/var/www/waterpoinsAdmin/alerts'
     filename = 'alert.html'

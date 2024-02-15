@@ -12,10 +12,12 @@ def allowed_file(filename):
     return extension.lower() == '.html' and name.lower() in ALLOWED_NAMES
 
 @weekly_bp.route('/addweekly')
+@login_required
 def add_weekly():
     return render_template('addWeekly.html')
 
 @weekly_bp.route('/weekly/add', methods=['POST'])
+@login_required
 def upload_file():
     if 'file' not in request.files:
         flash('No file provided')
@@ -42,6 +44,7 @@ def unauthorized_handler(error):
     return render_template('error.html'), 401
 
 @weekly_bp.route('/download_weekly')
+@login_required
 def download_file():
     directory = '/var/www/waterpoinsAdmin/alerts'
     filename = 'weekly.html'
