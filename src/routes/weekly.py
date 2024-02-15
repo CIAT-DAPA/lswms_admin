@@ -4,19 +4,19 @@ import os
 
 
 ALLOWED_EXTENSIONS = {'html'}
-ALLOWED_NAMES = {'alert'}
-alerts_bp = Blueprint('alerts', __name__)
+ALLOWED_NAMES = {'weekly'}
+weekly_bp = Blueprint('weekly', __name__)
 
 def allowed_file(filename):
     name, extension = os.path.splitext(filename)
     return extension.lower() == '.html' and name.lower() in ALLOWED_NAMES
 
-@alerts_bp.route('/addalert')
+@weekly_bp.route('/addweekly')
 @login_required
-def add_alert():
-    return render_template('addAlert.html')
+def add_weekly():
+    return render_template('addWeekly.html')
 
-@alerts_bp.route('/alert/add', methods=['POST'])
+@weekly_bp.route('/weekly/add', methods=['POST'])
 @login_required
 def upload_file():
     if 'file' not in request.files:
@@ -39,13 +39,13 @@ def upload_file():
         flash('Invalid file format or name')
         return redirect('/adm1')
     
-@alerts_bp.errorhandler(401)
+@weekly_bp.errorhandler(401)
 def unauthorized_handler(error):
     return render_template('error.html'), 401
 
-@alerts_bp.route('/download')
+@weekly_bp.route('/download_weekly')
 @login_required
 def download_file():
     directory = '/var/www/waterpoinsAdmin/alerts'
-    filename = 'alert.html'
+    filename = 'weekly.html'
     return send_from_directory(directory, filename, as_attachment=True)
