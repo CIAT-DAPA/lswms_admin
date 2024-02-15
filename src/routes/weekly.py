@@ -14,7 +14,7 @@ def allowed_file(filename):
 @weekly_bp.route('/addweekly')
 @login_required
 def add_weekly():
-    return render_template('addWeekly.html')
+    return render_template('addweekly.html')
 
 @weekly_bp.route('/weekly/add', methods=['POST'])
 @login_required
