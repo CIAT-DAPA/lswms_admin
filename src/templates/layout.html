@@ -49,7 +49,7 @@
                         <li><a class="dropdown-item" href="/typecontent">Category</a></li>
                         <li><a class="dropdown-item" href="/wpcontent">Waterpoint Content</a></li>
                         <li><a class="dropdown-item" href="/wscontent">Watershed Content</a></li>
-                        <li><a class="dropdown-item" href="/addalert">Boletin</a></li>
+                        <li><a class="dropdown-item" href="/addalert">bulletins</a></li>
                         
 
                     </ul>
@@ -76,6 +76,38 @@
 
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for message in messages %}
+            <!-- {{ message }} -->
+            <div class="alert {% if 'error' in message %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+                <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                    {{ message }} <!-- Imprime el mensaje -->
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<style>
+    .alert {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+</style>
+
     <div class=" cont " style="margin-top: 100px; ">{% block body %} {% endblock %}</div>
     <link rel="stylesheet" href="../static/css/templates.css">
 
@@ -123,5 +155,6 @@
 
 
     </div>
+  
 </footer>
 </html>
