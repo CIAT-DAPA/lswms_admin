@@ -7979,3 +7979,14 @@ readers do not read off random characters that represent icons */
         color: blue; /* Cambia el color que prefieras */
     }
     
+    .versions {
+      color: black;
+  }
+  
+  .versions:hover {
+      color: blue !important	;
+  }
+  
+  .text{
+    text-wrap:pretty;
+  }
