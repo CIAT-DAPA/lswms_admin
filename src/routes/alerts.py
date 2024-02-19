@@ -75,5 +75,5 @@ def unauthorized_handler(error):
 
 @alerts_bp.route('/download/<filename>')
 def download_specific_file(filename):
-    directory = 'D://WATERPOINTSAPPS//emailproofs'
+    directory = '/var/www/waterpoinsAdmin/alerts'
     return send_from_directory(directory, filename, as_attachment=True)
