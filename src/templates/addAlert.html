@@ -6,7 +6,8 @@
         <div class="col-md-6">
             <div class="mb-4">
                 <h2 class="text">Update HTML files for alert and weekly bulletins</h2>
-                <p class="text-left text">In this section, you can update HTML files that will be used for alert and weekly bulletins.</p>
+                <p class="text-left text">In this section, you can update HTML files that will be used for alert and
+                    weekly bulletins.</p>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -14,20 +15,22 @@
                     <form method="POST" action="/alert/add" enctype="multipart/form-data">
                         <div class="form-group mb-4" style="width: 150px;">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type" id="alertRadio" value="alert" checked>
+                                <input class="form-check-input" type="radio" name="type" id="alertRadio" value="alert"
+                                    checked>
                                 <label class="form-check-label" for="alertRadio">Alert</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type" id="weeklyRadio" value="weekly">
+                                <input class="form-check-input" type="radio" name="type" id="weeklyRadio"
+                                    value="weekly">
                                 <label class="form-check-label" for="weeklyRadio">Weekly</label>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="input-group mb-3">
                             <input type="file" class="form-control" name="file" id="file">
                         </div>
-                        
+
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary save-button">
                                 Upload <i class="fas fa-upload"></i>
@@ -37,15 +40,23 @@
                 </div>
             </div>
             <div class="mb-4 mt-3">
-                <p class="text-muted text"> You can also download the current versions by clicking on the links below:</p>
+                <p class="text-muted text"> You can also download the current versions by clicking on the links below:
+                </p>
                 <ul class="list-unstyled">
                     {% if files %}
-                        {% for file in files %}
-                            <li><a class="versions text-muted" href="{{ url_for('alerts.download_specific_file', filename=file) }}">{{ file }}</a></li>
-                        {% endfor %}
-                    {% else %}
-                        <li>No files available.</li>
-                    {% endif %}
+                    {% for file in files %}
+                        <li class="mt-2">
+                            <a class="btn btn-success btn-sm" href="{{ url_for('alerts.download_specific_file', filename=file) }}">
+                                {{ file }} <i class="fas fa-download "></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>No files available.</li>
+                {% endif %}
+                
+
+
                 </ul>
             </div>
         </div>
@@ -56,11 +67,11 @@
             var alertRadio = document.getElementById('alertRadio');
             var weeklyRadio = document.getElementById('weeklyRadio');
             var fileInput = document.getElementById('file');
-            
+
             alertRadio.addEventListener('change', function () {
                 fileInput.accept = '.html';
             });
-            
+
             weeklyRadio.addEventListener('change', function () {
                 fileInput.accept = '.html';
             });
