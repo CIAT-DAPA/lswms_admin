@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center vh-100">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center">Add Advisory</h2>
+          <p>Fill in the fields</p>
+
+          <form method="POST" action="/advisories/add">
+            <div class="mb-3">
+              <label class="form-label">State:</label>
+              <select class="form-select" name="state" required>
+                <option value="" selected disabled>Select a state</option>
+                {% for s in states %}
+                  <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">English (en):</label>
+              <textarea class="form-control" name="text_en" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Amharic (am):</label>
+              <textarea class="form-control" name="text_am" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Afaan Oromo (or):</label>
+              <textarea class="form-control" name="text_or" rows="3" required></textarea>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary save-button">
+                Save <i class="fas fa-save"></i>
+              </button>
+              <a href="/advisories" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

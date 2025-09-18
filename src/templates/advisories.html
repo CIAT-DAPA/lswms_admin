@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h5 class="" style="margin-left: 15px;">
+  In this section, you can add, edit, and delete Advisory texts (state + i18n).
+</h5>
+
+<div class="container-fluid mt-5" style="height:100%; margin-bottom:250px;">
+  <div class="row">
+    <div class="container-md d-flex justify-content-between align-items-center">
+      <h2>Advisories</h2>
+      <a href="/advisories/add" class="btn btn-primary">Add Advisory <i class="fas fa-plus"></i></a>
+    </div>
+
+    <table id="example" class="table table-striped" style="width:100%">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>EN</th>
+          <th>AM</th>
+          <th>OR</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td><strong>{{ it.state }}</strong></td>
+          <td class="text-truncate" style="max-width: 320px;">{{ it.languages.get('en','') }}</td>
+          <td class="text-truncate" style="max-width: 320px;">{{ it.languages.get('am','') }}</td>
+          <td class="text-truncate" style="max-width: 320px;">{{ it.languages.get('or','') }}</td>
+          <td>
+            <div class="text-center">
+              <a href="/advisories/edit/{{ it.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ it.id }}" data-bs-tooltip title="Delete">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% for it in items %}
+<div class="modal fade" id="deleteModal-{{ it.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ it.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel-{{ it.id }}">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete advisory for state "{{ it.state }}"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/advisories/delete/{{ it.id }}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

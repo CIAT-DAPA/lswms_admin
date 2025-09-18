@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container-fluid d-flex justify-content-center" style="min-height: 80vh;">
+  <div class="col-md-8">
+    <h2 class="card-title text-center">Edit Advisory</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <form method="POST" action="/advisories/edit/{{ adv.id }}">
+          <div class="mb-3">
+            <label class="form-label">State:</label>
+            <select class="form-select" name="state" required>
+              {% for s in states %}
+                <option value="{{ s }}" {% if adv.state == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">English (en):</label>
+            <textarea class="form-control" name="text_en" rows="3" required>{{ vals.en }}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Amharic (am):</label>
+            <textarea class="form-control" name="text_am" rows="3" required>{{ vals.am }}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Afaan Oromo (or):</label>
+            <textarea class="form-control" name="text_or" rows="3" required>{{ vals.or }}</textarea>
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-warning">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <a href="/advisories" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
