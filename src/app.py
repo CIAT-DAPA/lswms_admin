@@ -12,6 +12,7 @@ from routes.home import home_bp
 from routes.login import login_bp
 from routes.alerts import alerts_bp
 from routes.advisories_bp import advisories_bp
+from routes.forecast import forecasts_bp
 from models.models import User
 from models.database import connect_to_postgres, perform_postgres_query
 from config import config
@@ -43,6 +44,7 @@ app.register_blueprint(home_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(alerts_bp)
 app.register_blueprint(advisories_bp)
+app.register_blueprint(forecasts_bp)
 def connect_to_postgres():
     return psycopg2.connect(user=user, password=passw, dbname=name_db, host="localhost", port="5432")
 
@@ -60,7 +62,7 @@ if __name__ == '__main__':
     connect(host=config['CONNECTION_DB'])
     print("Connected to MongoDB")
 
-    # Conexión a PostgreSQL
+    # Conexión a PostgreSQl
     postgres_connection = connect_to_postgres()
     print("Conectado a PostgreSQL")
 
