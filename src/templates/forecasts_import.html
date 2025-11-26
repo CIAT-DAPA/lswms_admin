@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h2 class="card-title text-center">Import Forecasts</h2>
+                    <p class="text-center">Upload a CSV file to import Seasonal or Subseasonal forecasts.</p>
+
+                    <form method="POST" action="/forecasts/import" enctype="multipart/form-data">
+
+                        <!-- Select type -->
+                        <div class="mb-3">
+                            <label for="forecast_type" class="form-label">Forecast Type:</label>
+                            <select class="form-select" id="forecast_type" name="forecast_type" required>
+                                <option value="">-- Select --</option>
+                                <option value="seasonal">Seasonal</option>
+                                <option value="subseasonal">Subseasonal</option>
+                            </select>
+                        </div>
+
+                        <!-- File upload -->
+                        <div class="mb-3">
+                            <label for="file" class="form-label">CSV File:</label>
+                            <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+                        </div>
+
+                        <!-- Help text area depending on selection -->
+                        <div id="helpText" class="alert alert-info d-none">
+                            <!-- JS will fill this dynamically -->
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary save-button">
+                                Import <i class="fas fa-upload"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Simple JS to show CSV format examples -->
+<script>
+document.getElementById('forecast_type').addEventListener('change', function() {
+    const help = document.getElementById('helpText');
+    help.classList.remove('d-none');
+
+    if (this.value === 'seasonal') {
+        help.innerHTML = `
+            <strong>Seasonal CSV format:</strong><br>
+            <code>waterpoint_id,year,month,measure,lower,normal,upper</code>
+            <br><br>
+            Example:<br>
+            <code>64d1bf1cc703fe54e05ee7d7,2025,12,prec,0.2,0.5,0.3</code>
+        `;
+    } 
+    else if (this.value === 'subseasonal') {
+        help.innerHTML = `
+            <strong>Subseasonal CSV format:</strong><br>
+            <code>waterpoint_id,year,month,week,measure,lower,normal,upper</code>
+            <br><br>
+            Example:<br>
+            <code>64d1bf1cc703fe54e05ee7d7,2026,03,1,prec,0.1,0.6,0.3</code>
+        `;
+    } 
+    else {
+        help.classList.add('d-none');
+    }
+});
+</script>
+
+{% endblock %}
