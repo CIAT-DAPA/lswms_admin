@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h5 class="" style="margin-left: 15px;">
+    In this section, you can edit and delete Advisory PDFs.
+</h5>
+
+<div class="container-fluid mt-5" style="height:100%; margin-bottom:250px;">
+    <div class="row">
+        <div class="container-md d-flex justify-content-between align-items-center">
+            <h2>Advisory PDFs</h2>
+            <a href="/advisorypdf/add" class="btn btn-primary">Add PDF <i class="fas fa-plus"></i></a>
+        </div>
+
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Filename</th>
+                    <th>Description</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for it in items %}
+                <tr>
+                    <td><strong>{{ it.name }}</strong></td>
+                    <td>{{ it.type.value }}</td>
+                    <td>{{ it.filename }}</td>
+                    <td class="text-truncate" style="max-width: 320px;">{{ it.description or '' }}</td>
+                    <td>
+                        <div class="text-center">
+                            <a href="/advisorypdf/edit/{{ it.id }}" class="btn btn-warning" data-bs-toggle="tooltip"
+                                title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-{{ it.id }}" data-bs-tooltip title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% for it in items %}
+<div class="modal fade" id="deleteModal-{{ it.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ it.id }}"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ it.id }}">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete advisory PDF "{{ it.name }}" ({{ it.filename }})?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="/advisorypdf/delete/{{ it.id }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

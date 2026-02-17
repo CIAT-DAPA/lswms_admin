@@ -12,6 +12,7 @@ from routes.home import home_bp
 from routes.login import login_bp
 from routes.alerts import alerts_bp
 from routes.advisories_bp import advisories_bp
+from routes.advisorypdf_bp import advisorypdf_bp
 from routes.forecast import forecasts_bp
 from models.models import User
 from models.database import connect_to_postgres, perform_postgres_query
@@ -19,9 +20,11 @@ from config import config
 import os
 import flask_login
 import psycopg2
+
 name_db = os.getenv('USERS_DB_NAME', 'prueba2key')
 user = os.getenv('USERS_DB_USER', 'root')
 passw = os.getenv('USERS_DB_PASS', 's3cr3t')
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -44,11 +47,17 @@ app.register_blueprint(home_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(alerts_bp)
 app.register_blueprint(advisories_bp)
+app.register_blueprint(advisorypdf_bp)
 app.register_blueprint(forecasts_bp)
+
 def connect_to_postgres():
-    return psycopg2.connect(user=user, password=passw, dbname=name_db, host="localhost", port="5432")
-
-
+    return psycopg2.connect(
+        user=user,
+        password=passw,
+        dbname=name_db,
+        host="localhost",
+        port="5432"
+    )
 
 def perform_postgres_query(connection, query):
     cursor = connection.cursor()
@@ -57,19 +66,16 @@ def perform_postgres_query(connection, query):
     cursor.close()
     return result
 
-
 if __name__ == '__main__':
     connect(host=config['CONNECTION_DB'])
     print("Connected to MongoDB")
 
-    # Conexión a PostgreSQl
+    # Conexión a PostgreSQL
     postgres_connection = connect_to_postgres()
     print("Conectado a PostgreSQL")
-
     postgres_connection.close()
 
     if config['DEBUG']:
         app.run(threaded=True, port=config['PORT'], debug=config['DEBUG'])
     else:
-        app.run(host=config['HOST'], port=config['PORT'],
-                debug=config['DEBUG'])
+        app.run(host=config['HOST'], port=config['PORT'], debug=config['DEBUG'])
